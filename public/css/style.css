@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap');
+
+html{
+    min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: rgb(237, 120, 237);
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0;
+}
+
+nav{
+    position: fixed;
+    top: 2vh;
+    right: 0;
+    width: 30vw;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+nav li{
+    list-style: none;
+}
+
+a{
+    font-size: 17px;
+    color: rgb(228, 228, 227);
+    text-decoration: none;
+}
+
+a.active{
+    color: black;
+}
+
+.header{
+    width: 30vw;
+    margin: 20vh 35vw 10vh 35vw;
+    text-align: center;
+}
+
+.header h1{
+    font-size: 40px; 
+}
+
+.header p{
+    font-size: 20px;
+    color: rgb(228, 228, 227);
+}
+
+form {
+    width: 30vw;
+    margin: 20vh 35vw 5vh 35vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2vw;
+}
+
+form div{
+    font-size: 18px;
+    margin-bottom: 2vh;
+}
+
+label {
+    font-size: 20px;
+    margin-bottom: 1vw;
+}
+
+input{
+    font-size: 18px;
+    width: 80px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: inset 0 -1px 0 0 black;
+    margin-bottom: 1vw;
+    color: rgb(228, 228, 227)
+}
+
+input::placeholder {
+  color: rgba(228, 228, 227, 0.8);
+}
+
+button{
+    font-size: 1.2rem;
+    background-color: rgb(228, 228, 227);
+    color: rgb(237, 120, 237);
+    border-radius: 5px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: rgb(237, 120, 237);
+    color: rgb(228, 228, 227);
+}
+
+.contents{
+    width: 60vw;
+    margin: 7vh 20vw 5vh 20vw;
+    text-align: justify;
+}
+
+.contents h1{
+    text-align: center;
+    color: rgb(228, 228, 227);
+    margin-bottom: 5vh;
+}
+
+.contents h2{
+    margin-bottom: 2vh;
+}
+
+.contents p{
+    font-size: 18px;
+}
+
+.contents li{
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+footer{
+    margin: 2vw 0 0;
+    color: rgba(228, 228, 227, 0.8);
+    text-align: center;
+}

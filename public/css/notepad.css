@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap');
+
+html{
+    min-height: 100vh;
+    width: 100vw;
+    background-color: rgb(237, 120, 237);
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+}
+
+body{
+    margin: 0;
+}
+
+nav{
+    position: fixed;
+    top: 2vh;
+    right: 0;
+    width: 30vw;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+li{
+    list-style: none;
+}
+
+a{
+    font-size: 17px;
+    color: rgb(228, 228, 227);
+    text-decoration: none;
+}
+
+a.active{
+    color: black;
+}
+
+.content{
+    width: 60vw;
+    margin: 10vh 20vw 2vh;
+}
+
+.content .details{
+    display: flex;
+    justify-content: space-between;
+}
+
+.content span{
+    color: rgb(228, 228, 227);
+    font-style: italic;
+}
+
+#toolbar{
+    width: 60vw;
+    margin: 5vh 20vw 1vh;
+    padding: 10px;
+    background-color: rgb(228, 228, 227);
+    border-radius: 5px;
+}
+
+#toolbar button{
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+#toolbar select{
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+form{
+    width: 60vw;
+    margin: 1vh 20vw 2vh;
+}
+
+#editor{
+    width: 100%;
+    margin-bottom: 2vh;
+    height: 40vh;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    border: 1px solid black;
+    border-radius: 5px;
+    outline: none;
+    overflow: auto;
+    background-color: rgb(228, 228, 227);
+}
+
+form button{
+    font-size: 18px;
+    background-color: rgb(228, 228, 227);
+    color: rgb(237, 120, 237);
+    border-radius: 5px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover{
+    background-color: rgb(237, 120, 237);
+    color: rgb(228, 228, 227);
+}
+
+footer{
+    margin: 2vw 0;
+    color: rgba(228, 228, 227, 0.8);
+    text-align: center;
+}

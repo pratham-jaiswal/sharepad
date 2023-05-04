@@ -1,0 +1,17 @@
+<%- include('header', {css: 'style', homeActive: 'active', termsActive: '', aboutActive: '', contactActive: ''}) %>
+  <div class="header">
+    <h1>SharePad</h1>
+    <p>Create a new notepad and share it with anyone</p>
+  </div>
+  <form action="/" method="POST">
+    <label for="routeName">Enter notepad name:</label>
+    <div>
+      <%= req.protocol + '://' + req.get('host') + req.originalUrl %><input type="text" id="routeName" name="routeName" minlength="6" placeholder="sharepad" required>
+    </div>
+    <div>
+      <label for="password">Password (optional):</label>
+      <input type="password" id="password" name="password" minlength="6">
+    </div>
+    <button type="submit">Create</button>
+  </form>
+<%- include('footer') %>

@@ -1,0 +1,37 @@
+<%- include('header', {css: 'notepad', homeActive: '', termsActive: '', aboutActive: '', contactActive: ''}) %>
+  <div class="content">
+    <h1>SharePad</h1>
+    <div class="details">
+      <div>Notepad name: <span><%= name %></span></div>
+      <div>Expiry: <span><%= expiry %></span></div>
+    </div>
+  </div>
+  <div id="toolbar">
+    <button id="boldButton" title="Bold"><b>B</b></button>
+    <button id="italicButton" title="Italic"><i>I</i></button>
+    <button id="underlineButton" title="Underline"><u>U</u></button>
+    <button id="strikeButton" title="Strike Through"><s>S</s></button>
+    <select id="fontSelect" title="Font">
+      <option value="Arial">Arial</option>
+      <option value="Calibri">Calibri</option>
+      <option value="Courier New">Courier New</option>
+      <option value="Georgia">Georgia</option>
+      <option value="Times New Roman">Times New Roman</option>
+    </select>
+    <select id="sizeSelect" title="Size">
+      <option value="1">8 pt</option>
+      <option value="2">10 pt</option>
+      <option value="3">12 pt</option>
+      <option value="4">14 pt</option>
+      <option value="5">18 pt</option>
+      <option value="6">24 pt</option>
+      <option value="7">36 pt</option>
+    </select>
+  </div>
+  <br>
+  <form action="/<%=name%>" method="post">
+    <textarea id="editor" name="notepad" contenteditable="true"><%=content%></textarea>
+    <button type="submit">Save</button>
+  </form>
+  <script src="/js/script.js"></script>
+<%- include('footer') %>
