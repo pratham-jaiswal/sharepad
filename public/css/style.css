@@ -122,6 +122,11 @@ button:hover{
     margin-bottom: 10px;
 }
 
+.error{
+    font-size: 14px;
+    color: red;
+}
+
 footer{
     margin: 2vw 0 0;
     color: rgba(228, 228, 227, 0.8);
