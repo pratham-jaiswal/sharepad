@@ -109,3 +109,54 @@ footer{
     color: rgba(228, 228, 227, 0.8);
     text-align: center;
 }
+
+@media screen and (max-width: 900px){
+    nav{
+        width: 40vw;
+    }
+
+    .content{
+        width: 70vw;
+        margin: 10vh 15vw 2vh;
+    }
+    
+    #toolbar{
+        width: 70vw;
+        margin: 5vh 15vw 1vh;
+        padding: 10px;
+        background-color: rgb(228, 228, 227);
+        border-radius: 5px;
+    }
+    
+    form{
+        width: 70vw;
+        margin: 1vh 15vw 2vh;
+    }
+}
+
+@media screen and (max-width: 600px){
+    nav{
+        width: 60vw;
+    }
+
+    .content .details{
+        flex-direction: column;
+        gap: 2vw;
+    }
+
+    #toolbar{
+        display: grid;
+        grid-template-columns: repeat(4, minmax(5vw, 20vw));
+        grid-gap: 2vw;
+    }
+
+    select{
+        grid-column-end: span 2;
+    }
+}
+
+@media screen and (max-width: 460px){
+    nav{
+        width: 80vw;
+    }
+}
