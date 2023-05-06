@@ -17,16 +17,16 @@ routes[`test`] = {
 };
 
 app.get("/", (req, res) => {
-    res.render("index", {req});
+    res.render("index", {req, error: ''});
 });
 
 app.post('/', (req, res) => {
     var { routeName, password } = req.body;
     if (routeName.length < 6) {
-        return res.status(400).send('Route name must be at least 6 characters long');
+        return res.status(400).render("index", {req, error: 'SharePad name must be at least 6 characters long'});
     }
     if (routeName in routes || routeName == 'test'){
-        return res.status(400).send('Route already exists');
+        return res.status(400).render("index", {req, error: 'SharePad ' + routeName + ' already exists'});
     }
     var saltRounds = parseInt(process.env.SALT_ROUNDS);
     let hashedPassword = null;
@@ -39,10 +39,10 @@ app.post('/', (req, res) => {
         password: hashedPassword
     };
     if(routes[routeName].password){
-        res.render(`unlock`, {title: routeName, name: routeName, error: ''});
+        return res.render(`unlock`, {title: routeName, name: routeName, error: ''});
     }
     else{
-        res.redirect(`/${routeName}`);   
+        return res.redirect(`/${routeName}`);   
     }
 });
 
@@ -61,7 +61,7 @@ app.get('/contact', (req, res) => {
 app.post('/:routeName', (req, res) => {
     var { routeName } = req.params;
     if (!(routeName in routes)){
-        return res.status(404).send('Route not found');
+        return res.status(404).render('404');
     }
 
     if(routes[routeName].password){
@@ -83,7 +83,7 @@ app.post('/:routeName', (req, res) => {
 app.get('/:routeName', (req, res) => {
     var { routeName } = req.params;
     if (!(routeName in routes)){
-        return res.status(404).send('Route not found');
+        return res.status(404).render('404');
     }
 
     routes[routeName].lastAccessed = Date.now();
@@ -107,7 +107,7 @@ function deleteExpiredRoutes() {
 setInterval(deleteExpiredRoutes, 60 * 60 * 1000);
 
 app.use((req, res) => {
-    res.status(404).send("Route not found");
+    res.status(404).render('404');
 });
 
 app.listen(3000, () => {

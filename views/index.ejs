@@ -1,9 +1,10 @@
-<%- include('header', {css: 'style', homeActive: 'active', termsActive: '', aboutActive: '', contactActive: ''}) %>
+<%- include('header', {title: 'SharePad', css: 'style', homeActive: 'active', termsActive: '', aboutActive: '', contactActive: ''}) %>
   <div class="header">
     <h1>SharePad</h1>
     <p>Create a new notepad and share it with anyone</p>
   </div>
   <form action="/" method="POST">
+    <p class="error"><%=error%></p>
     <label for="routeName">Enter notepad name:</label>
     <div>
       <%= req.protocol + '://' + req.get('host') + req.originalUrl %><input type="text" id="routeName" name="routeName" minlength="6" placeholder="sharepad" required>
