@@ -48,6 +48,10 @@ a.active{
     color: rgb(228, 228, 227);
 }
 
+.header a{
+    text-decoration: underline;
+}
+
 form {
     width: 30vw;
     margin: 20vh 35vw 5vh 35vw;
