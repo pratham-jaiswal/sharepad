@@ -29,11 +29,13 @@ git clone https://github.com/pratham-jaiswal/sharepad.git
 2. Express
 3. EJS
 4. BCrypt
-5. Nodemon (optional)
+5. Dotenv
+6. Crypto
+7. Nodemon (optional)
     You can install these dependencies using npm:
     ```bash
     npm init
-    npm install express ejs bcrypt nodemon
+    npm install express ejs bcrypt nodemon dotenv crypto
     ```
 <br/><br/>
 
