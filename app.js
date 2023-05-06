@@ -43,7 +43,7 @@ app.post('/', (req, res) => {
 app.get('/test', (req, res) => {
     var currTime = new Date();
     var expiry = new Date(currTime.getTime() + (24 * 60 * 60 * 1000)).toLocaleString();
-    res.render('notepad', {title: "Route: test", name: "test", expiry: expiry});
+    res.render('notepad', {title: "SharePad: test", name: "test", expiry: expiry});
 });
 
 app.get('/terms', (req, res) => {
@@ -89,7 +89,7 @@ app.get('/:routeName', (req, res) => {
     
     
     routes[routeName].lastAccessed = Date.now();
-    var title = `Route: ${routeName}`;
+    var title = `SharePad: ${routeName}`;
     var expiry = new Date(routes[routeName].lastAccessed + (24 * 60 * 60 * 1000)).toLocaleString();
     var content = routes[routeName].content;
     res.render('notepad', {title, name: routeName, expiry: expiry, content: content});
