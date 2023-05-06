@@ -10,6 +10,12 @@ app.use(express.static("public"));
 
 const routes = {};
 
+routes[`test`] = {
+    created: Date.now(),
+    lastAccessed: Date.now(),
+    password: null
+};
+
 app.get("/", (req, res) => {
     res.render("index", {req});
 });
@@ -19,7 +25,7 @@ app.post('/', (req, res) => {
     if (routeName.length < 6) {
         return res.status(400).send('Route name must be at least 6 characters long');
     }
-    if (routeName in routes) {
+    if (routeName in routes || routeName == 'test'){
         return res.status(400).send('Route already exists');
     }
     var saltRounds = parseInt(process.env.SALT_ROUNDS);
@@ -38,12 +44,6 @@ app.post('/', (req, res) => {
     else{
         res.redirect(`/${routeName}`);   
     }
-});
-
-app.get('/test', (req, res) => {
-    var currTime = new Date();
-    var expiry = new Date(currTime.getTime() + (24 * 60 * 60 * 1000)).toLocaleString();
-    res.render('notepad', {title: "SharePad: test", name: "test", expiry: expiry});
 });
 
 app.get('/terms', (req, res) => {
@@ -86,11 +86,12 @@ app.get('/:routeName', (req, res) => {
         return res.status(404).send('Route not found');
     }
 
-    
-    
     routes[routeName].lastAccessed = Date.now();
     var title = `SharePad: ${routeName}`;
     var expiry = new Date(routes[routeName].lastAccessed + (24 * 60 * 60 * 1000)).toLocaleString();
+    if(routeName == 'test'){
+        routes[routeName].content = routes[routeName].content || 'Welcome to SharePad! SharePad is a simple and secure online notepad that allows you to easily share text and related content with others. SharePad offers a range of editing features such as font, size, bold, italics, underline, and strikethrough to enhance your writing experience. Our goal is to provide a fast, reliable, and secure platform for sharing information, without the need for databases, cookies, or user accounts.';
+    }
     var content = routes[routeName].content;
     res.render('notepad', {title, name: routeName, expiry: expiry, content: content});
 });
