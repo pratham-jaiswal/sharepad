@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bcrypt = require("bcrypt");
+const crypto = require('crypto');
 require('dotenv').config();
 
 app.set("view engine", "ejs");
@@ -16,7 +17,10 @@ routes[`test`] = {
     password: null
 };
 
+let val = null;
+
 app.get("/", (req, res) => {
+    val = null;
     res.render("index", {req, error: ''});
 });
 
@@ -58,6 +62,20 @@ app.get('/contact', (req, res) => {
     res.render('contact.ejs');
 });
 
+app.get('/checker/:routeName', (req, res) => {
+    var { routeName } = req.params;
+    if (!(routeName in routes)){
+        return res.status(404).render('404');
+    }
+    
+    if(routes[routeName].password){
+        return res.render('unlock', {title: routeName, name: routeName, error: error});
+    }
+    else{
+        return res.redirect(`/${routeName}`);   
+    }
+});
+
 app.post('/:routeName', (req, res) => {
     var { routeName } = req.params;
     if (!(routeName in routes)){
@@ -73,6 +91,9 @@ app.post('/:routeName', (req, res) => {
             }
             return res.render('unlock', {title: routeName, name: routeName, error: error});
         }
+        var hash = crypto.randomBytes(64).toString('hex');
+        val = hash;
+        return res.redirect(`/${routeName}?v=`+hash);   
     }
 
     var content  = req.body.notepad;
@@ -84,6 +105,18 @@ app.get('/:routeName', (req, res) => {
     var { routeName } = req.params;
     if (!(routeName in routes)){
         return res.status(404).render('404');
+    }
+
+    if(routes[routeName].password){
+        if(!val){
+            return res.render('unlock', {title: routeName, name: routeName, error: ''});
+        }
+        else{
+            const hash = req.query.v;
+            if (val != hash){
+                return res.render('unlock', {title: routeName, name: routeName, error: 'Authentication Failure! Try Again!'});
+            }
+        }
     }
 
     routes[routeName].lastAccessed = Date.now();
