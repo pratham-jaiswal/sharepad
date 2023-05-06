@@ -1,0 +1,12 @@
+<%- include('header', {css: 'style', homeActive: '', termsActive: '', aboutActive: '', contactActive: ''}) %>
+    <div class="header">
+        <h1>SharePad</h1>
+        <p>Enter the password for SharePad <i><%=name%></i></p>
+    </div>
+    <form action="<%=name%>" method="post">
+        <p class="error"><%=error%></p>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password">
+        <button type="submit">Unlock</button>
+    </form>
+</body>
