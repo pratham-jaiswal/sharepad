@@ -83,6 +83,7 @@ app.get('/checker/:routeName', (req, res) => {
 });
 
 app.post('/:routeName', (req, res) => {
+    var adsenseClientId = process.env.ADSENSE_CLIENT_ID;
     var { routeName } = req.params;
     if (!(routeName in routes)){
         return res.status(404).render('404', {adsenseClientId});
@@ -108,6 +109,7 @@ app.post('/:routeName', (req, res) => {
 });
 
 app.get('/:routeName', (req, res) => {
+    var adsenseClientId = process.env.ADSENSE_CLIENT_ID;
     var { routeName } = req.params;
     if (!(routeName in routes)){
         return res.status(404).render('404', {adsenseClientId});
@@ -146,6 +148,7 @@ function deleteExpiredRoutes() {
 setInterval(deleteExpiredRoutes, 60 * 60 * 1000);
 
 app.use((req, res) => {
+    var adsenseClientId = process.env.ADSENSE_CLIENT_ID;
     res.status(404).render('404', {adsenseClientId});
 });
 
