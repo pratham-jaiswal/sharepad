@@ -1,5 +1,5 @@
 {
-  "name": "notepad",
+  "name": "SharePad",
   "version": "1.1.0",
   "description": "SharePad is an online notepad that allows you to easily share and collaborate on text and related content with others, without the need for a login or account.",
   "main": "index.js",
