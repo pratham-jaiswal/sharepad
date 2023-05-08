@@ -20,19 +20,17 @@ routes[`test`] = {
 let val = null;
 
 app.get("/", (req, res) => {
-    var adsenseClientId = process.env.ADSENSE_CLIENT_ID;
     val = null;
-    res.render("index", {req, error: '', adsenseClientId});
+    res.render("index", {req, error: ''});
 });
 
 app.post('/', (req, res) => {
     var { routeName, password } = req.body;
-    var adsenseClientId = process.env.ADSENSE_CLIENT_ID;
     if (routeName.length < 6) {
-        return res.status(400).render("index", {req, error: 'SharePad name must be at least 6 characters long', adsenseClientId});
+        return res.status(400).render("index", {req, error: 'SharePad name must be at least 6 characters long'});
     }
     if (routeName in routes || routeName == 'test'){
-        return res.status(400).render("index", {req, error: 'SharePad ' + routeName + ' already exists', adsenseClientId});
+        return res.status(400).render("index", {req, error: 'SharePad ' + routeName + ' already exists'});
     }
     var saltRounds = parseInt(process.env.SALT_ROUNDS);
     let hashedPassword = null;
@@ -45,7 +43,7 @@ app.post('/', (req, res) => {
         password: hashedPassword
     };
     if(routes[routeName].password){
-        return res.render(`unlock`, {title: routeName, name: routeName, error: '', adsenseClientId});
+        return res.render(`unlock`, {title: routeName, name: routeName, error: ''});
     }
     else{
         return res.redirect(`/${routeName}`);   
@@ -53,29 +51,25 @@ app.post('/', (req, res) => {
 });
 
 app.get('/terms', (req, res) => {
-    var adsenseClientId = process.env.ADSENSE_CLIENT_ID;
-    res.render('terms.ejs', {adsenseClientId});
+    res.render('terms.ejs');
 });
 
 app.get('/about', (req, res) => {
-    var adsenseClientId = process.env.ADSENSE_CLIENT_ID;
-    res.render('about.ejs', {adsenseClientId});
+    res.render('about.ejs');
 });
 
 app.get('/contact', (req, res) => {
-    var adsenseClientId = process.env.ADSENSE_CLIENT_ID;
-    res.render('contact.ejs', {adsenseClientId});
+    res.render('contact.ejs');
 });
 
 app.get('/checker/:routeName', (req, res) => {
-    var adsenseClientId = process.env.ADSENSE_CLIENT_ID;
     var { routeName } = req.params;
     if (!(routeName in routes)){
-        return res.status(404).render('404', {adsenseClientId});
+        return res.status(404).render('404');
     }
     
     if(routes[routeName].password){
-        return res.render('unlock', {title: routeName, name: routeName, error: error, adsenseClientId});
+        return res.render('unlock', {title: routeName, name: routeName, error: error});
     }
     else{
         return res.redirect(`/${routeName}`);   
@@ -83,10 +77,9 @@ app.get('/checker/:routeName', (req, res) => {
 });
 
 app.post('/:routeName', (req, res) => {
-    var adsenseClientId = process.env.ADSENSE_CLIENT_ID;
     var { routeName } = req.params;
     if (!(routeName in routes)){
-        return res.status(404).render('404', {adsenseClientId});
+        return res.status(404).render('404');
     }
 
     if(routes[routeName].password){
@@ -96,7 +89,7 @@ app.post('/:routeName', (req, res) => {
             if(password == ''){
                 error = '';
             }
-            return res.render('unlock', {title: routeName, name: routeName, error: error, adsenseClientId});
+            return res.render('unlock', {title: routeName, name: routeName, error: error});
         }
         var hash = crypto.randomBytes(64).toString('hex');
         val = hash;
@@ -109,20 +102,19 @@ app.post('/:routeName', (req, res) => {
 });
 
 app.get('/:routeName', (req, res) => {
-    var adsenseClientId = process.env.ADSENSE_CLIENT_ID;
     var { routeName } = req.params;
     if (!(routeName in routes)){
-        return res.status(404).render('404', {adsenseClientId});
+        return res.status(404).render('404');
     }
 
     if(routes[routeName].password){
         if(!val){
-            return res.render('unlock', {title: routeName, name: routeName, error: '', adsenseClientId});
+            return res.render('unlock', {title: routeName, name: routeName, error: ''});
         }
         else{
             const hash = req.query.v;
             if (val != hash){
-                return res.render('unlock', {title: routeName, name: routeName, error: 'Authentication Failure! Try Again!', adsenseClientId});
+                return res.render('unlock', {title: routeName, name: routeName, error: 'Authentication Failure! Try Again!'});
             }
         }
     }
@@ -134,7 +126,7 @@ app.get('/:routeName', (req, res) => {
         routes[routeName].content = routes[routeName].content || 'Welcome to SharePad! SharePad is a simple and secure online notepad that allows you to easily share text and related content with others. SharePad offers a range of editing features such as font, size, bold, italics, underline, and strikethrough to enhance your writing experience. Our goal is to provide a fast, reliable, and secure platform for sharing information, without the need for databases, cookies, or user accounts.';
     }
     var content = routes[routeName].content;
-    res.render('notepad', {title, name: routeName, expiry: expiry, content: content, adsenseClientId});
+    res.render('notepad', {title, name: routeName, expiry: expiry, content: content});
 });
 
 function deleteExpiredRoutes() {
@@ -148,8 +140,7 @@ function deleteExpiredRoutes() {
 setInterval(deleteExpiredRoutes, 60 * 60 * 1000);
 
 app.use((req, res) => {
-    var adsenseClientId = process.env.ADSENSE_CLIENT_ID;
-    res.status(404).render('404', {adsenseClientId});
+    res.status(404).render('404');
 });
 
 app.listen(3000, () => {
