@@ -30,7 +30,8 @@
   </div>
   <br>
   <form action="/<%= name %>" method="post">
-    <textarea id="editor" name="notepad" contenteditable="true"><%=content%></textarea>
+    <div id="editor" name="notepad" contenteditable="true"><%=content%></div>
     <button type="submit" name="save" value="true">Save</button>
   </form>
+  <script src="/js/script.js"></script>
 <%- include('footer') %>
