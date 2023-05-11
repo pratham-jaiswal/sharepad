@@ -27,20 +27,16 @@ app.get("/", (req, res) => {
 app.post("/", (req, res) => {
   var { routeName, password } = req.body;
   if (routeName.length < 6) {
-    return res
-      .status(400)
-      .render("index", {
-        req,
-        error: "SharePad name must be at least 6 characters long",
-      });
+    return res.status(400).render("index", {
+      req,
+      error: "SharePad name must be at least 6 characters long",
+    });
   }
   if (routeName in routes || routeName == "test") {
-    return res
-      .status(400)
-      .render("index", {
-        req,
-        error: "SharePad " + routeName + " already exists",
-      });
+    return res.status(400).render("index", {
+      req,
+      error: "SharePad " + routeName + " already exists",
+    });
   }
 
   var saltRounds = parseInt(process.env.SALT_ROUNDS);
@@ -82,32 +78,25 @@ app.post("/:routeName", (req, res) => {
     return res.status(404).render("404");
   }
 
-  const save = req.body.save;
-  if (save) {
-    var content = req.body.notepad;
-    routes[routeName].content = content;
-    return res.redirect(`/${routeName}?v=` + val);
-  } else {
-    if (routes[routeName].password) {
-      var password = req.body.password || "";
-      error = "Please enter the correct password";
-      if (!bcrypt.compareSync(password, routes[routeName].password)) {
-        if (password == "") {
-          error = "";
-        }
-        return res.render("unlock", {
-          title: routeName,
-          name: routeName,
-          error: error,
-        });
+  if (routes[routeName].password) {
+    var password = req.body.password || "";
+    error = "Please enter the correct password";
+    if (!bcrypt.compareSync(password, routes[routeName].password)) {
+      if (password == "") {
+        error = "";
       }
-
-      var hash = crypto.randomBytes(64).toString("hex");
-      val = hash;
-      return res.redirect(`/${routeName}?v=` + hash);
+      return res.render("unlock", {
+        title: routeName,
+        name: routeName,
+        error: error,
+      });
     }
-    res.redirect(`/${routeName}`);
+
+    var hash = crypto.randomBytes(64).toString("hex");
+    val = hash;
+    return res.redirect(`/${routeName}?v=` + hash);
   }
+  res.redirect(`/${routeName}`);
 });
 
 app.get("/:routeName", (req, res) => {
@@ -152,6 +141,11 @@ app.get("/:routeName", (req, res) => {
     expiry: expiry,
     content: content,
   });
+});
+
+app.put("/:routeName", (req, res) => {
+  var { routeName } = req.params;
+  routes[routeName].content = req.body.content;
 });
 
 function deleteExpiredRoutes() {

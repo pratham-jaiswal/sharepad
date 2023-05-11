@@ -7,6 +7,15 @@ const fontSelect = document.getElementById('fontSelect');
 const sizeSelect = document.getElementById('sizeSelect');
 editor.focus();
 
+editor.addEventListener('input', () => {
+  const content = editor.innerHTML;
+  const url = new URL(window.location.href);
+  const xhr = new XMLHttpRequest();
+  xhr.open('PUT', url);
+  xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+  xhr.send(JSON.stringify({content}));
+});
+
 boldButton.addEventListener('click', () => {
   document.execCommand('bold', false, null);
 });
