@@ -17,7 +17,7 @@ routes[`test`] = {
   password: null,
 };
 
-const val = null;
+let val = null;
 
 app.get("/", (req, res) => {
   val = null;
