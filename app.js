@@ -17,7 +17,7 @@ routes[`test`] = {
   password: null,
 };
 
-let val = null;
+const val = null;
 
 app.get("/", (req, res) => {
   val = null;
@@ -40,7 +40,7 @@ app.post("/", (req, res) => {
   }
 
   var saltRounds = parseInt(process.env.SALT_ROUNDS);
-  let hashedPassword = null;
+  const hashedPassword = null;
   if (password) {
     hashedPassword = bcrypt.hashSync(password, saltRounds);
   }
@@ -108,6 +108,7 @@ app.get("/:routeName", (req, res) => {
   const hash = req.query.v;
   if (routes[routeName].password) {
     if (!val || !hash) {
+      console.log("no val || hash\nval= "+val+"\nhash= "+hash);
       return res.render("unlock", {
         title: routeName,
         name: routeName,
@@ -115,6 +116,7 @@ app.get("/:routeName", (req, res) => {
       });
     } else {
       if (val != hash) {
+        console.log("val != hash\nval= "+val+"\nhash= "+hash);
         return res.render("unlock", {
           title: routeName,
           name: routeName,
@@ -148,7 +150,7 @@ app.put("/:routeName", (req, res) => {
   routes[routeName].content = req.body.content;
 });
 
-function deleteExpiredRoutes() {
+function deconsteExpiredRoutes() {
   var now = Date.now();
   for (var [routeName, route] of Object.entries(routes)) {
     if (now - route.lastAccessed > 24 * 60 * 60 * 1000) {
@@ -156,7 +158,7 @@ function deleteExpiredRoutes() {
     }
   }
 }
-setInterval(deleteExpiredRoutes, 1 * 60 * 60 * 1000);
+setInterval(deconsteExpiredRoutes, 1 * 60 * 60 * 1000);
 
 app.use((req, res) => {
   res.status(404).render("404");
