@@ -17,10 +17,10 @@ routes[`test`] = {
   password: null,
 };
 
-let val = null;
-
 app.get("/", (req, res) => {
-  val = null;
+  for (const route in routes) {
+    routes[route].val = null;
+  }
   res.render("index", { req, error: "" });
 });
 
@@ -98,7 +98,8 @@ app.post("/:routeName", (req, res) => {
       }
 
       var hash = crypto.randomBytes(64).toString("hex");
-      val = hash;
+      routes[routeName].val = hash;
+
       return res.redirect(`/${routeName}?v=` + hash);
     }
     res.redirect(`/${routeName}`);
@@ -110,6 +111,7 @@ app.get("/:routeName", (req, res) => {
     return res.status(404).render("404");
   }
 
+  const val = routes[routeName].val || null;
   const hash = req.query.v;
   if (routes[routeName].password) {
     if (!val || !hash) {
