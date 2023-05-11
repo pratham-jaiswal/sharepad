@@ -52,7 +52,7 @@ a.active{
     text-decoration: underline;
 }
 
-form {
+form{
     width: 30vw;
     margin: 20vh 35vw 5vh 35vw;
     display: flex;
