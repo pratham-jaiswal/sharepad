@@ -18,9 +18,6 @@ routes[`test`] = {
 };
 
 app.get("/", (req, res) => {
-  for (const route in routes) {
-    routes[route].val = null;
-  }
   res.render("index", { req, error: "" });
 });
 
