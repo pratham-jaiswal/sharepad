@@ -91,7 +91,6 @@ app.post("/:routeName", (req, res) => {
 
     var hash = crypto.randomBytes(64).toString("hex");
     routes[routeName].val = hash;
-    console.log("set val = "+routes[routeName].val);
     return res.redirect(`/${routeName}?v=` + hash);
   }
   res.redirect(`/${routeName}`);
@@ -107,7 +106,6 @@ app.get("/:routeName", (req, res) => {
   const hash = req.query.v;
   if (routes[routeName].password) {
     if (!val || !hash) {
-      console.log("no val || hash\nval= " + val + "\nhash= " + hash);
       return res.render("unlock", {
         title: routeName,
         name: routeName,
@@ -115,7 +113,6 @@ app.get("/:routeName", (req, res) => {
       });
     } else {
       if (val != hash) {
-        console.log("val != hash\nval= " + val + "\nhash= " + hash);
         return res.render("unlock", {
           title: routeName,
           name: routeName,
