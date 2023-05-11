@@ -27,20 +27,16 @@ app.get("/", (req, res) => {
 app.post("/", (req, res) => {
   var { routeName, password } = req.body;
   if (routeName.length < 6) {
-    return res
-      .status(400)
-      .render("index", {
-        req,
-        error: "SharePad name must be at least 6 characters long",
-      });
+    return res.status(400).render("index", {
+      req,
+      error: "SharePad name must be at least 6 characters long",
+    });
   }
   if (routeName in routes || routeName == "test") {
-    return res
-      .status(400)
-      .render("index", {
-        req,
-        error: "SharePad " + routeName + " already exists",
-      });
+    return res.status(400).render("index", {
+      req,
+      error: "SharePad " + routeName + " already exists",
+    });
   }
 
   var saltRounds = parseInt(process.env.SALT_ROUNDS);
@@ -82,27 +78,26 @@ app.post("/:routeName", (req, res) => {
     return res.status(404).render("404");
   }
 
-  const save = req.body.save;
- if (routes[routeName].password) {
-      var password = req.body.password || "";
-      error = "Please enter the correct password";
-      if (!bcrypt.compareSync(password, routes[routeName].password)) {
-        if (password == "") {
-          error = "";
-        }
-        return res.render("unlock", {
-          title: routeName,
-          name: routeName,
-          error: error,
-        });
+  if (routes[routeName].password) {
+    var password = req.body.password || "";
+    error = "Please enter the correct password";
+    if (!bcrypt.compareSync(password, routes[routeName].password)) {
+      if (password == "") {
+        error = "";
       }
-
-      var hash = crypto.randomBytes(64).toString("hex");
-      routes[routeName].val = hash;
-
-      return res.redirect(`/${routeName}?v=` + hash);
+      return res.render("unlock", {
+        title: routeName,
+        name: routeName,
+        error: error,
+      });
     }
-    res.redirect(`/${routeName}`);
+
+    var hash = crypto.randomBytes(64).toString("hex");
+    routes[routeName].val = hash;
+
+    return res.redirect(`/${routeName}?v=` + hash);
+  }
+  res.redirect(`/${routeName}`);
 });
 
 app.get("/:routeName", (req, res) => {
@@ -111,11 +106,11 @@ app.get("/:routeName", (req, res) => {
     return res.status(404).render("404");
   }
 
-  const val = routes[routeName].val || null;
+  const val = routes[routeName].val;
   const hash = req.query.v;
   if (routes[routeName].password) {
     if (!val || !hash) {
-      console.log("no val || hash\nval= "+val+"\nhash= "+hash);
+      console.log("no val || hash\nval= " + val + "\nhash= " + hash);
       return res.render("unlock", {
         title: routeName,
         name: routeName,
@@ -123,7 +118,7 @@ app.get("/:routeName", (req, res) => {
       });
     } else {
       if (val != hash) {
-        console.log("val != hash\nval= "+val+"\nhash= "+hash);
+        console.log("val != hash\nval= " + val + "\nhash= " + hash);
         return res.render("unlock", {
           title: routeName,
           name: routeName,
