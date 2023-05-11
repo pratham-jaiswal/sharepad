@@ -94,7 +94,7 @@ app.post("/:routeName", (req, res) => {
 
     var hash = crypto.randomBytes(64).toString("hex");
     routes[routeName].val = hash;
-
+    console.log("set val = "+routes[routeName].val);
     return res.redirect(`/${routeName}?v=` + hash);
   }
   res.redirect(`/${routeName}`);
