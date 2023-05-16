@@ -48,7 +48,6 @@ app.post("/", (req, res) => {
   };
   if (routes[routeName].password) {
     return res.render(`unlock`, {
-      title: routeName,
       name: routeName,
       error: "",
     });
@@ -83,7 +82,6 @@ app.post("/:routeName", (req, res) => {
         error = "";
       }
       return res.render("unlock", {
-        title: routeName,
         name: routeName,
         error: error,
       });
@@ -107,14 +105,12 @@ app.get("/:routeName", (req, res) => {
   if (routes[routeName].password) {
     if (!val || !hash) {
       return res.render("unlock", {
-        title: routeName,
         name: routeName,
         error: "",
       });
     } else {
       if (val != hash) {
         return res.render("unlock", {
-          title: routeName,
           name: routeName,
           error: "Authentication Failure! Try Again!",
         });
@@ -123,7 +119,6 @@ app.get("/:routeName", (req, res) => {
   }
 
   routes[routeName].lastAccessed = Date.now();
-  var title = `SharePad: ${routeName}`;
   var expiry = new Date(
     routes[routeName].lastAccessed + 24 * 60 * 60 * 1000
   ).toLocaleString();
@@ -134,7 +129,6 @@ app.get("/:routeName", (req, res) => {
   }
   var content = routes[routeName].content;
   res.render("notepad", {
-    title,
     name: routeName,
     expiry: expiry,
     content: content,
