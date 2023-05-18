@@ -17,18 +17,22 @@ editor.addEventListener('input', () => {
 });
 
 boldButton.addEventListener('click', () => {
+  event.preventDefault();
   document.execCommand('bold', false, null);
 });
 
 italicButton.addEventListener('click', () => {
+  event.preventDefault();
   document.execCommand('italic', false, null);
 });
 
 underlineButton.addEventListener('click', () => {
+  event.preventDefault();
   document.execCommand('underline', false, null);
 });
 
 strikeButton.addEventListener('click', () => {
+  event.preventDefault();
   document.execCommand('strikeThrough', false, null);
 });
 
