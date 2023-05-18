@@ -89,21 +89,6 @@ section{
     background-color: rgb(228, 228, 227);
 }
 
-form button{
-    font-size: 18px;
-    background-color: rgb(228, 228, 227);
-    color: rgb(237, 120, 237);
-    border-radius: 5px;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-}
-
-form button:hover{
-    background-color: rgb(237, 120, 237);
-    color: rgb(228, 228, 227);
-}
-
 footer{
     margin: 2vw 0;
     color: rgba(228, 228, 227, 0.8);
@@ -128,7 +113,7 @@ footer{
         border-radius: 5px;
     }
     
-    form{
+    section{
         width: 70vw;
         margin: 1vh 15vw 2vh;
     }
