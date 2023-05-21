@@ -18,7 +18,7 @@ nav{
     position: fixed;
     top: 2vh;
     right: 0;
-    width: 30vw;
+    width: 45vw;
     display: flex;
     justify-content: space-evenly;
 }
@@ -72,7 +72,7 @@ a.active{
 
 section{
     width: 60vw;
-    margin: 1vh 20vw 2vh;
+    margin: 1vh 20vw 0;
 }
 
 #editor{
@@ -89,15 +89,53 @@ section{
     background-color: rgb(228, 228, 227);
 }
 
+.adsterra{
+    display: flex;
+    justify-content: center;
+}
+
+iframe{
+    position: fixed;
+    bottom: 0;
+}
+
+.b728{
+    display: inline;
+}
+
+.b468, .b320{
+    display: none;
+}
+
+.side-ads{
+    position: fixed;
+    display: flex;
+    font-display: column;
+    top: 0;
+    left: 0;
+    height: 100vw;
+}
+
+.side-ads a{
+    margin: 10vh 0;
+}
+
+.s160{
+    display: inline;
+}
+
+.s120{
+    display: none;
+}
+
 footer{
-    margin: 2vw 0;
     color: rgba(228, 228, 227, 0.8);
     text-align: center;
 }
 
 @media screen and (max-width: 900px){
     nav{
-        width: 40vw;
+        width: 55vw;
     }
 
     .content{
@@ -117,11 +155,33 @@ footer{
         width: 70vw;
         margin: 1vh 15vw 2vh;
     }
+    
+    .b468{
+        display: inline;
+    }
+    
+    .b728, .b320{
+        display: none;
+    }
+
+    .s120{
+        display: inline;
+    }
+    
+    .s160{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 850px){
+    .s160, .s120{
+        display: none;
+    }
 }
 
 @media screen and (max-width: 600px){
     nav{
-        width: 60vw;
+        width: 75vw;
     }
 
     .content .details{
@@ -138,10 +198,28 @@ footer{
     select{
         grid-column-end: span 2;
     }
+    
+    .b320{
+        display: inline;
+    }
+    
+    .b728, .b468{
+        display: none;
+    }
+    
+    footer{
+        margin: 1vh 0 15vh;
+    }
 }
 
 @media screen and (max-width: 460px){
     nav{
-        width: 80vw;
+        width: 90vw;
+    }
+}
+
+@media screen and (max-width: 350px){
+    nav{
+        width: 100vw;
     }
 }
