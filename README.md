@@ -53,17 +53,17 @@ This saves time and effort, allowing you to focus on writing code and testing it
 
 ## Test the website
 After starting the node, open a browser, type "*localhost:3000*" and hit enter.
-| ![Imgur](https://i.imgur.com/Z0nOxgJ.png) |
+| ![Imgur](https://i.imgur.com/7WFiyKy.png) |
 |:--:|
 | <i>Homepage</i>|
 <br/><br/>
 
-| ![Imgur](https://i.imgur.com/QmKW0QQ.png) |
+| ![Imgur](https://i.imgur.com/579cX2Z.png) |
 |:--:|
 | <i>Unlock Password Protected Page</i>|
 <br/><br/>
 
-| ![Imgur](https://i.imgur.com/OTsyxIa.png) |
+| ![Imgur](https://i.imgur.com/o337HGZ.png) |
 |:--:|
 | <i>SharePad Editor</i>|
 <br/><br/>
