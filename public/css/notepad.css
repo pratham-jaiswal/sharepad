@@ -94,7 +94,7 @@ section{
     justify-content: center;
 }
 
-iframe{
+.adsterra iframe{
     position: fixed;
     bottom: 0;
 }
@@ -107,16 +107,23 @@ iframe{
     display: none;
 }
 
-.side-ads{
+.left-side-ads{
     position: fixed;
     display: flex;
     font-display: column;
     top: 0;
     left: 0;
     height: 100vw;
+    margin: 10vh 0;
 }
 
-.side-ads a{
+.right-side-ads{
+    position: fixed;
+    display: flex;
+    font-display: column;
+    top: 0;
+    right: 0;
+    height: 100vw;
     margin: 10vh 0;
 }
 
@@ -133,29 +140,7 @@ footer{
     text-align: center;
 }
 
-@media screen and (max-width: 900px){
-    nav{
-        width: 55vw;
-    }
-
-    .content{
-        width: 70vw;
-        margin: 10vh 15vw 2vh;
-    }
-    
-    #toolbar{
-        width: 70vw;
-        margin: 5vh 15vw 1vh;
-        padding: 10px;
-        background-color: rgb(228, 228, 227);
-        border-radius: 5px;
-    }
-    
-    section{
-        width: 70vw;
-        margin: 1vh 15vw 2vh;
-    }
-    
+@media screen and (max-width: 1050px){
     .b468{
         display: inline;
     }
@@ -163,13 +148,39 @@ footer{
     .b728, .b320{
         display: none;
     }
+}
 
+@media screen and (max-width: 1000px){
     .s120{
         display: inline;
     }
     
     .s160{
         display: none;
+    }
+}
+
+@media screen and (max-width: 900px){
+    nav{
+        width: 55vw;
+    }
+
+    .content{
+        width: 65vw;
+        margin: 10vh 17vw 2vh;
+    }
+    
+    #toolbar{
+        width: 65vw;
+        margin: 5vh 17vw 1vh;
+        padding: 10px;
+        background-color: rgb(228, 228, 227);
+        border-radius: 5px;
+    }
+    
+    section{
+        width: 65vw;
+        margin: 1vh 17vw 2vh;
     }
 }
 

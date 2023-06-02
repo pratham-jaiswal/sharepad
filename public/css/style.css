@@ -136,7 +136,7 @@ button:hover{
     justify-content: center;
 }
 
-iframe{
+.adsterra iframe{
     position: fixed;
     bottom: 0;
 }
@@ -149,16 +149,23 @@ iframe{
     display: none;
 }
 
-.side-ads{
+.left-side-ads{
     position: fixed;
     display: flex;
     font-display: column;
     top: 0;
     left: 0;
     height: 100vw;
+    margin: 10vh 0;
 }
 
-.side-ads a{
+.right-side-ads{
+    position: fixed;
+    display: flex;
+    font-display: column;
+    top: 0;
+    right: 0;
+    height: 100vw;
     margin: 10vh 0;
 }
 
@@ -176,6 +183,16 @@ footer{
     text-align: center;
 }
 
+@media screen and (max-width: 1050px){
+    .b468{
+        display: inline;
+    }
+    
+    .b728, .b320{
+        display: none;
+    }
+}
+
 @media screen and (max-width: 900px){
     .header{
         width: 50vw;
@@ -189,14 +206,6 @@ footer{
 
     nav{
         width: 55vw;
-    }
-    
-    .b468{
-        display: inline;
-    }
-    
-    .b728, .b320{
-        display: none;
     }
 
     .s120{
