@@ -190,16 +190,7 @@ footer{
     }
 }
 
-@media screen and (max-width: 600px){
-    nav{
-        width: 75vw;
-    }
-
-    .content .details{
-        flex-direction: column;
-        gap: 2vw;
-    }
-
+@media screen and (max-width: 720px){
     #toolbar{
         display: grid;
         grid-template-columns: repeat(4, minmax(5vw, 20vw));
@@ -208,6 +199,21 @@ footer{
 
     select{
         grid-column-end: span 2;
+    }
+
+    #downloadButton{
+        grid-column-end: span 4;
+    }
+}
+
+@media screen and (max-width: 600px){
+    nav{
+        width: 75vw;
+    }
+
+    .content .details{
+        flex-direction: column;
+        gap: 2vw;
     }
     
     .b320{
