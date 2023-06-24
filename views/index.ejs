@@ -6,9 +6,9 @@
   </div>
   <form action="/" method="POST">
     <p class="error"><%=error%></p>
-    <label for="routeName">Enter notepad name:</label>
+    <label for="noteName">Enter notepad name:</label>
     <div>
-      <%= req.protocol + '://' + req.get('host') + req.originalUrl %><input type="text" id="routeName" name="routeName" minlength="6" placeholder="sharepad" required>
+      <%= req.protocol + '://' + req.get('host') + req.originalUrl %><input type="text" id="noteName" name="noteName" minlength="6" placeholder="sharepad" required>
     </div>
     <div>
       <label for="password">Password (optional):</label>
