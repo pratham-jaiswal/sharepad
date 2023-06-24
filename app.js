@@ -1,7 +1,7 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const app = express();
 const bcrypt = require("bcrypt");
-const crypto = require("crypto");
 require("dotenv").config();
 
 app.set("view engine", "ejs");
@@ -9,50 +9,69 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-const routes = {};
+mongoose.connect("mongodb+srv://pratham:"+process.env.PASSWORD+"@projects.aymrzso.mongodb.net/sharepadDB");
+// mongoose.connect("mongodb://localhost:27017/sharepadDB"); // for testing locally
 
-routes[`test`] = {
-  created: Date.now(),
-  lastAccessed: Date.now(),
-  password: null,
+const notesSchema = {
+  name: {
+    type: String,
+    required: true,
+  },
+  created: Date,
+  lastAccessed: Date,
+  content: String,
+  password: String,
 };
+
+const Note = mongoose.model("Note", notesSchema);
 
 app.get("/", (req, res) => {
   res.render("index", { req, error: "" });
 });
 
-app.post("/", (req, res) => {
-  var { routeName, password } = req.body;
-  if (routeName.length < 6) {
+app.post("/", async function (req, res) {
+  let { noteName, password } = req.body;
+  if (noteName.length < 6) {
     return res.status(400).render("index", {
       req,
       error: "SharePad name must be at least 6 characters long",
     });
   }
-  if (routeName in routes || routeName == "test") {
+  let findNote;
+  try {
+    findNote = await Note.findOne({ name: noteName }).exec();
+  } catch (err) {
+    console.log(err);
+  }
+  if (findNote) {
     return res.status(400).render("index", {
       req,
-      error: "SharePad " + routeName + " already exists",
+      error: "SharePad " + noteName + " already exists",
     });
   }
 
-  var saltRounds = parseInt(process.env.SALT_ROUNDS);
+  let saltRounds = parseInt(process.env.SALT_ROUNDS);
   let hashedPassword = null;
   if (password) {
     hashedPassword = bcrypt.hashSync(password, saltRounds);
   }
-  routes[routeName] = {
+
+  let newNote = new Note({
+    name: noteName,
     created: Date.now(),
     lastAccessed: Date.now(),
+    content: null,
     password: hashedPassword,
-  };
-  if (routes[routeName].password) {
+  })
+  newNote.save();
+
+  if (password) {
     return res.render(`unlock`, {
-      name: routeName,
+      name: noteName,
       error: "",
     });
   } else {
-    return res.redirect(`/${routeName}`);
+    return res.redirect(`/${noteName}`);
   }
 });
 
@@ -68,87 +87,110 @@ app.get("/contact", (req, res) => {
   res.render("contact.ejs");
 });
 
-app.post("/:routeName", (req, res) => {
-  var { routeName } = req.params;
-  if (!(routeName in routes)) {
-    return res.status(404).render("404");
+app.post("/:noteName", async function (req, res) {
+  let { noteName } = req.params;
+
+  let findNote;
+  try {
+    findNote = await Note.findOne({ name: noteName }).exec();
+  } catch (err) {
+    console.log(err);
   }
 
-  if (routes[routeName].password) {
-    var password = req.body.password || "";
+  if (!findNote) {
+    return res.status(404).render("404");
+  }
+  
+  if (findNote.password) {
+    let password = req.body.password || "";
     error = "Please enter the correct password";
-    if (!bcrypt.compareSync(password, routes[routeName].password)) {
-      if (password == "") {
-        error = "";
-      }
+    if (!bcrypt.compareSync(password, findNote.password)) {
       return res.render("unlock", {
-        name: routeName,
+        name: noteName,
         error: error,
       });
     }
 
-    var hash = crypto.randomBytes(64).toString("hex");
-    routes[routeName].val = hash;
-    return res.redirect(`/${routeName}?v=` + hash);
+    return res.redirect(`/${noteName}?v=` + findNote.password);
   }
-  res.redirect(`/${routeName}`);
+  res.redirect(`/${noteName}`);
 });
 
-app.get("/:routeName", (req, res) => {
-  var { routeName } = req.params;
-  if (!(routeName in routes)) {
+app.get("/:noteName", async function (req, res) {
+  let { noteName } = req.params;
+  
+  let findNote;
+  try {
+    findNote = await Note.findOne({ name: noteName }).exec();
+  } catch (err) {
+    console.log(err);
+  }
+
+  if (!findNote) {
     return res.status(404).render("404");
   }
 
-  const val = routes[routeName].val;
-  const hash = req.query.v;
-  if (routes[routeName].password) {
-    if (!val || !hash) {
+  if (findNote.password) {
+    const v = req.query.v;
+    if (!v) {
       return res.render("unlock", {
-        name: routeName,
+        name: noteName,
         error: "",
       });
-    } else {
-      if (val != hash) {
-        return res.render("unlock", {
-          name: routeName,
-          error: "Authentication Failure! Try Again!",
-        });
-      }
+    }
+    else if (v != findNote.password) {
+      return res.render("unlock", {
+        name: noteName,
+        error: "Please enter the correct password",
+      });
     }
   }
 
-  routes[routeName].lastAccessed = Date.now();
-  var expiry = new Date(
-    routes[routeName].lastAccessed + 24 * 60 * 60 * 1000
+  findNote.lastAccessed = Date.now();
+  let expiry = new Date(
+    findNote.lastAccessed + 24 * 60 * 60 * 1000
   ).toLocaleString();
-  if (routeName == "test") {
-    routes[routeName].content =
-      routes[routeName].content ||
-      "Welcome to SharePad! SharePad is a simple and secure online notepad that allows you to easily share text and related content with others. SharePad offers a range of editing features such as font, size, bold, italics, underline, and strikethrough to enhance your writing experience. Our goal is to provide a fast, reliable, and secure platform for sharing information, without the need for databases, cookies, or user accounts.";
-  }
-  var content = routes[routeName].content;
+  findNote.save();
+
+  let content = findNote.content;
   res.render("notepad", {
-    name: routeName,
+    name: noteName,
     expiry: expiry,
     content: content,
   });
 });
 
-app.put("/:routeName", (req, res) => {
-  var { routeName } = req.params;
-  routes[routeName].content = req.body.content;
+app.put("/:noteName", async function (req, res) {
+  let { noteName } = req.params;
+  let findNote;
+  try {
+    await Note.findOneAndUpdate(
+      { name: noteName },
+      { content: req.body.content },
+      { new: true }
+    );
+  } catch (err) {
+    console.log(err);
+  }
+  if(!findNote){
+    return res.status(404).render("404");
+  }
+  console.log(findNote.content);
+  console.log(req.body.content+"\n\n");
 });
 
-function deleteExpiredRoutes() {
-  var now = Date.now();
-  for (var [routeName, route] of Object.entries(routes)) {
-    if (now - route.lastAccessed > 24 * 60 * 60 * 1000) {
-      delete routes[routeName];
-    }
-  }
+async function deleteExpiredNotes() {
+  let now = Date.now();
+  const expiryDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+  try {
+    await Note.deleteMany({ name: { $ne: "welcome" }, lastAccessed: { $lt: expiryDate } });
+  } catch (err) {
+    console.log(err);
+  }  
 }
-setInterval(deleteExpiredRoutes, 1 * 60 * 60 * 1000);
+
+setInterval(deleteExpiredNotes, 15 * 60 * 1000);
 
 app.use((req, res) => {
   res.status(404).render("404");
