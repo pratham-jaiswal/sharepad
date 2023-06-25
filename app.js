@@ -149,13 +149,16 @@ app.get("/:noteName", async function (req, res) {
   findNote.lastAccessed = Date.now();
   let expiry = new Date(
     findNote.lastAccessed + 24 * 60 * 60 * 1000
-  ).toLocaleString();
+  );
+  let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  let formattedExpiry = expiry.toLocaleString(undefined, { timeZone: timeZone });
+
   findNote.save();
 
   let content = findNote.content;
   res.render("notepad", {
     name: noteName,
-    expiry: expiry,
+    expiry: formattedExpiry,
     content: content,
   });
 });
@@ -181,7 +184,7 @@ app.put("/:noteName", async function (req, res) {
 
 async function deleteExpiredNotes() {
   let now = Date.now();
-  const expiryDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  const expiryDate = new Date(now - 24 * 60 * 60 * 1000);
 
   try {
     await Note.deleteMany({ name: { $ne: "welcome" }, lastAccessed: { $lt: expiryDate } });
