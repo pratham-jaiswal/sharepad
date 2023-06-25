@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const bcrypt = require("bcrypt");
+const geoip = require('geoip-lite');
 require("dotenv").config();
 
 app.set("view engine", "ejs");
@@ -147,13 +148,33 @@ app.get("/:noteName", async function (req, res) {
   }
 
   findNote.lastAccessed = Date.now();
-  let expiry = new Date(
-    findNote.lastAccessed + 24 * 60 * 60 * 1000
-  );
-  let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  let formattedExpiry = expiry.toLocaleString(undefined, { timeZone: timeZone });
-
   findNote.save();
+
+  let visitorIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress || "103.224.182.250";
+  let geoData = geoip.lookup(visitorIP); // geoip.lookup("103.224.182.250")
+
+  /* When testing on localhost visitor ip is ::1 so the timezone is not detected. 
+    Download ngrok from https://ngrok.com/download.
+    Extract ngrok.exe out from ngrok.zip.
+    Start nodejs application on localhost.
+    Double click on ngrok.exe and run the following command: ngrok http 3000
+    Then a link like this will be provided to you: https://a123-b234-c567.ngrok-free.app
+    Open the link in your browser, and your app is ready for testing.
+
+    OR
+
+    You can just provide a timezone like I did below: "Asia/Kolkata".
+
+    OR
+
+    You can just provide a custom ip like I did above: "103.224.182.250" (Location: Sydney, Australia).
+  */
+
+  let timezone = (geoData && geoData.timezone) || "Asia/Kolkata";
+
+  let expiry = new Date(findNote.lastAccessed);
+  expiry.setDate(expiry.getDate() + 1);
+  let formattedExpiry = expiry.toLocaleString('en-IN', { timeZone: timezone});
 
   let content = findNote.content;
   res.render("notepad", {
