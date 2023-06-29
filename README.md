@@ -17,6 +17,7 @@ Once you're done with your note, you can share the link with anyone you want to 
 - Optional password protection for private notes
 - Share notes with others easily by sharing the link
 - Notes are automatically deleted 24 hours after the last access
+- Responsive for all devices
 
 <br/><br/>
 
