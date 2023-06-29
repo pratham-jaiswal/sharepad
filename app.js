@@ -203,19 +203,6 @@ app.put("/:noteName", async function (req, res) {
   console.log(req.body.content+"\n\n");
 });
 
-async function deleteExpiredNotes() {
-  let now = Date.now();
-  const expiryDate = new Date(now - 24 * 60 * 60 * 1000);
-
-  try {
-    await Note.deleteMany({ name: { $ne: "welcome" }, lastAccessed: { $lt: expiryDate } });
-  } catch (err) {
-    console.log(err);
-  }  
-}
-
-setInterval(deleteExpiredNotes, 15 * 60 * 1000);
-
 app.use((req, res) => {
   res.status(404).render("404");
 });
