@@ -1,6 +1,6 @@
 {
   "name": "sharepad",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "SharePad is an online notepad that allows you to easily share and collaborate on text and related content with others, without the need for a login or account.",
   "main": "app.js",
   "scripts": {
