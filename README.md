@@ -1,5 +1,5 @@
 # SharePad
-[SharePad](https://sharepad.online/) is a simple web-based notepad application that allows users to create and share notes with others. With SharePad, you can create notes with different font styles, sizes, bold, italics, underline, and strikethrough options. The application is designed to be simple, fast, and easy to use, with no registration or login required.
+SharePad is a simple web-based notepad application that allows users to create and share notes with others. With SharePad, you can create notes with different font styles, sizes, bold, italics, underline, and strikethrough options. The application is designed to be simple, fast, and easy to use, with no registration or login required.
 
 <br/><br/>
 
