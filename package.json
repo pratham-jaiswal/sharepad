@@ -4,6 +4,7 @@
   "description": "SharePad is an online notepad that allows you to easily share and collaborate on text and related content with others, without the need for a login or account.",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Pratham",
