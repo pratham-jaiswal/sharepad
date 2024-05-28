@@ -52,7 +52,7 @@ a.active{
     text-decoration: underline;
 }
 
-form{
+.home-form{
     width: 30vw;
     margin: 5vh 35vw 5vh 35vw;
     display: flex;
@@ -61,7 +61,7 @@ form{
     margin-top: 2vw;
 }
 
-form div{
+.home-form div{
     font-size: 18px;
     margin-bottom: 2vh;
 }
@@ -71,7 +71,7 @@ label {
     margin-bottom: 1vw;
 }
 
-input{
+.home-form input{
     font-size: 18px;
     width: 80px;
     background-color: transparent;
@@ -82,8 +82,8 @@ input{
     color: rgb(228, 228, 227)
 }
 
-input::placeholder {
-  color: rgba(228, 228, 227, 0.8);
+.home-form input::placeholder, .contact-form input::placeholder, .contact-form textarea::placeholder{
+    color: rgba(228, 228, 227, 0.8);
 }
 
 button{
@@ -117,6 +117,57 @@ button:hover{
     margin-bottom: 2vh;
 }
 
+.contact-form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 50px;
+    color: rgb(228, 228, 227)
+}
+
+.contact-form input{
+    width: 80%;
+    font-size: 18px;
+    align-self: center;
+    padding: 10px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: inset 0 -1px 0 0 black;
+    margin-bottom: 2vw;
+    color: rgb(228, 228, 227)
+}
+
+.contact-form textarea {
+    width: 80%;
+    padding: 10px;
+    background: transparent;
+    font-size: 18px;
+    border: 1px solid black;
+    border-radius: 7px;
+    outline: none;
+    margin-bottom: 2vw;
+    color: rgb(228, 228, 227);
+    resize: none;
+}
+
+.contents div{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+i{
+    font-size: 26px;
+}
+
+i:hover{
+    color: black;
+}
+
 .contents p{
     font-size: 18px;
 }
@@ -131,66 +182,10 @@ button:hover{
     color: red;
 }
 
-.adsterra{
-    display: flex;
-    justify-content: center;
-}
-
-.adsterra iframe{
-    position: fixed;
-    bottom: 0;
-}
-
-.b728{
-    display: inline;
-}
-
-.b468, .b320{
-    display: none;
-}
-
-.left-side-ads{
-    position: fixed;
-    display: flex;
-    font-display: column;
-    top: 0;
-    left: 0;
-    height: 100vw;
-    margin: 10vh 0;
-}
-
-.right-side-ads{
-    position: fixed;
-    display: flex;
-    font-display: column;
-    top: 0;
-    right: 0;
-    height: 100vw;
-    margin: 10vh 0;
-}
-
-.s160{
-    display: inline;
-}
-
-.s120{
-    display: none;
-}
-
 footer{
     margin: 2vh 0 15vh;
     color: rgba(228, 228, 227, 0.8);
     text-align: center;
-}
-
-@media screen and (max-width: 1050px){
-    .b468{
-        display: inline;
-    }
-    
-    .b728, .b320{
-        display: none;
-    }
 }
 
 @media screen and (max-width: 900px){
@@ -199,7 +194,7 @@ footer{
         margin: 10vh 25vw 5vh 25vw;
     }
 
-    form{
+    .home-form{
         width: 50vw;
         margin: 5vh 25vw 5vh 25vw;
     }
@@ -207,41 +202,21 @@ footer{
     nav{
         width: 55vw;
     }
-
-    .s120{
-        display: inline;
-    }
-    
-    .s160{
-        display: none;
-    }
 }
 
 @media screen and (max-width: 600px){
-    .s160, .s120{
-        display: none;
-    }
-
     .header{
         width: 60vw;
         margin: 20vh 20vw 10vh 20vw;
     }
 
-    form{
+    .home-form{
         width: 60vw;
         margin: 10vh 20vw 5vh 20vw;
     }
 
     nav{
         width: 75vw;
-    }
-    
-    .b320{
-        display: inline;
-    }
-    
-    .b728, .b468{
-        display: none;
     }
 }
 
@@ -251,7 +226,7 @@ footer{
         margin: 20vh 10vw 10vh 10vw;
     }
 
-    form{
+    .home-form{
         width: 80vw;
         margin: 10vh 10vw 5vh 10vw;
     }
@@ -274,7 +249,7 @@ footer{
         margin: 20vh 10vw 5vh 10vw;
     }
 
-    form{
+    .home-form{
         margin: 5vh 5vw 4vh 10vw;
     }
 
@@ -282,7 +257,7 @@ footer{
         font-size: 18px;
     }
     
-    form div{
+    .home-form div{
         font-size: 16px;
     }
     
