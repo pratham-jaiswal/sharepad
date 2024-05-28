@@ -89,75 +89,9 @@ section{
     background-color: rgb(228, 228, 227);
 }
 
-.adsterra{
-    display: flex;
-    justify-content: center;
-}
-
-.adsterra iframe{
-    position: fixed;
-    bottom: 0;
-}
-
-.b728{
-    display: inline;
-}
-
-.b468, .b320{
-    display: none;
-}
-
-.left-side-ads{
-    position: fixed;
-    display: flex;
-    font-display: column;
-    top: 0;
-    left: 0;
-    height: 100vw;
-    margin: 10vh 0;
-}
-
-.right-side-ads{
-    position: fixed;
-    display: flex;
-    font-display: column;
-    top: 0;
-    right: 0;
-    height: 100vw;
-    margin: 10vh 0;
-}
-
-.s160{
-    display: inline;
-}
-
-.s120{
-    display: none;
-}
-
 footer{
     color: rgba(228, 228, 227, 0.8);
     text-align: center;
-}
-
-@media screen and (max-width: 1050px){
-    .b468{
-        display: inline;
-    }
-    
-    .b728, .b320{
-        display: none;
-    }
-}
-
-@media screen and (max-width: 1000px){
-    .s120{
-        display: inline;
-    }
-    
-    .s160{
-        display: none;
-    }
 }
 
 @media screen and (max-width: 900px){
@@ -181,12 +115,6 @@ footer{
     section{
         width: 65vw;
         margin: 1vh 17vw 2vh;
-    }
-}
-
-@media screen and (max-width: 850px){
-    .s160, .s120{
-        display: none;
     }
 }
 
@@ -214,14 +142,6 @@ footer{
     .content .details{
         flex-direction: column;
         gap: 2vw;
-    }
-    
-    .b320{
-        display: inline;
-    }
-    
-    .b728, .b468{
-        display: none;
     }
     
     footer{
