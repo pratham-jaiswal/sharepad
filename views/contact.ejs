@@ -1,16 +1,76 @@
-<%- include('header', {title: 'SharePad - Contact Us', css: 'style', homeActive: '', termsActive: '', aboutActive: '', contactActive: 'active'}) %>
-    <div class="contents">
-        <h1>SharePad</h1>
-        <h2>Contact Us</h2>
-        <p>If you have any questions, concerns, or feedback about SharePad, please don't hesitate to reach out to us. You can contact us via email at <a href="mailto:support@sharepad.online">support@sharepad.online</a>, and we'll do our best to get back to you as soon as possible.</p>
-        <p>If you're experiencing any technical issues with the site, please include as much detail as possible in your email, including your browser type and version, any error messages you're seeing, and the steps you took to encounter the issue. This will help us troubleshoot the problem more efficiently.</p>
-        <p>We're also open to any suggestions or feature requests you may have for SharePad. We're constantly striving to improve the user experience and make the site more useful for our users, so we welcome any and all feedback.</p>
-        <p>Additionally, you can follow and contact the developer of SharePad on the following social media platforms:</p>
-        <ul>
-            <li><a href="https://github.com/pratham-jaiswal">GitHub</a></li>
-            <li><a href="https://www.linkedin.com/in/pratham-jaiswal/">LinkedIn</a></li>
-            <li><a href="https://www.instagram.com/_.pratham52/">Instagram</a></li>
-        </ul>
-        <p>Thank you for using SharePad, and we look forward to hearing from you!</p>
-    </div>
+<%- include('header', {title: 'SharePad - Contact Us', css: 'style', homeActive:
+'', termsActive: '', aboutActive: '', contactActive: 'active'}) %>
+<div class="contents">
+  <h1>SharePad</h1>
+  <h2>Contact Us</h2>
+  <form class="contact-form" id="contact-form">
+    <div id="status-message"></div>
+    <input type="text" name="user_name" placeholder="Name" required />
+    <input type="email" name="user_email" placeholder="Email" required />
+    <textarea
+      placeholder="Message"
+      cols="30"
+      rows="10"
+      name="message"
+      required
+    ></textarea>
+    <button type="submit">Send</button>
+  </form>
+  <div>
+    <a target="_blank" href="https://www.linkedin.com/in/pratham-jaiswal/"
+      ><i class="fa-brands fa-linkedin"></i
+    ></a>
+    <a target="_blank" href="https://github.com/pratham-jaiswal"
+      ><i class="fa-brands fa-github"></i
+    ></a>
+    <a target="_blank" href="https://www.instagram.com/_pratham.dev/"
+      ><i class="fa-brands fa-instagram"></i
+    ></a>
+    <a target="_blank" href="https://stackoverflow.com/users/14895056/prathamj"
+      ><i class="fa-brands fa-stack-overflow"></i
+    ></a>
+    <a
+      target="_blank"
+      href="mailto:pratham.jaiswal2020@vitstudent.ac.in?Subject="
+      ><i class="fa-solid fa-envelope"></i
+    ></a>
+  </div>
+</div>
+<script type="text/javascript">
+  (function () {
+    emailjs.init({
+      publicKey: "<%= emailjsPublicKey %>",
+    });
+  })();
+
+  window.onload = function () {
+    var contactForm = document.getElementById("contact-form");
+    var statusMessage = document.getElementById("status-message");
+
+    contactForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      emailjs
+        .sendForm("<%= emailjsServiceKey %>", "<%= emailjsTemplateId %>", this)
+        .then(
+          () => {
+            statusMessage.textContent =
+              "Your message has been successfully sent. We will get back to you as soon as possible.";
+
+            contactForm.reset();
+            setTimeout(function () {
+              statusMessage.textContent = "";
+            }, 5000);
+          },
+          (error) => {
+            statusMessage.textContent =
+              "Oops! Something went wrong while sending your message. Please try again later or use alternative contact options below.";
+
+            setTimeout(function () {
+              statusMessage.textContent = "";
+            }, 5000);
+          }
+        );
+    });
+  };
+</script>
 <%- include('footer') %>
