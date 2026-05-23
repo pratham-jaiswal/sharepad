@@ -1,6 +1,6 @@
 {
   "name": "sharepad",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "private": true,
   "description": "SharePad is a modern markdown-first shared notepad built with Next.js.",
   "scripts": {
@@ -10,32 +10,28 @@
     "lint": "next lint",
     "test": "echo \"No tests configured yet\""
   },
-  "author": "Pratham",
+  "author": "Pratham Jaiswal (MaxxDevs)",
   "license": "AGPL-3.0-only",
   "dependencies": {
+    "@mdxeditor/editor": "^4.0.1",
+    "@uiw/codemirror-theme-github": "^4.25.10",
     "bcryptjs": "^3.0.3",
     "jsonwebtoken": "^9.0.3",
+    "lucide-react": "^1.16.0",
     "marked": "^18.0.4",
     "mongoose": "^9.6.2",
     "next": "^16.2.6",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "react-markdown": "^10.1.0",
-    "rehype-highlight": "^7.0.2",
     "resend": "^6.12.3",
-    "remark-gfm": "^4.0.1",
     "sanitize-html": "^2.17.4",
     "sonner": "^2.0.7",
     "zod": "^4.4.3"
   },
-  "devDependencies": {
-    "@types/node": "^25.9.1",
-    "@types/react": "^19.2.15",
-    "@types/react-dom": "^19.2.3",
-    "eslint": "^10.4.0",
-    "eslint-config-next": "^16.2.6"
-  },
   "overrides": {
     "postcss": "^8.5.13"
+  },
+  "devDependencies": {
+    "@next/eslint-plugin-next": "^16.2.6"
   }
 }

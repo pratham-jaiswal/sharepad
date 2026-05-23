@@ -10,4 +10,7 @@ export default [
       ...nextPlugin.configs["core-web-vitals"].rules,
     },
   },
+  {
+    ignores: [".next/*"],
+  },
 ];
