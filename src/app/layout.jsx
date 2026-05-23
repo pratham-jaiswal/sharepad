@@ -67,10 +67,14 @@ export default function RootLayout({ children }) {
         <AppToaster />
         <main className="container page">{children}</main>
         <footer>
-          <p>
-            © 2023–{new Date().getFullYear()} SharePad • Built by Pratham
-            Jaiswal (MaxxDevs)
+          <p className="footer-main">
+            <span>© 2023–{new Date().getFullYear()} SharePad</span>
+
+            <span className="footer-builtby">
+              Built by Pratham Jaiswal (MaxxDevs)
+            </span>
           </p>
+
           <p>Share, edit, repeat.</p>
         </footer>
       </body>

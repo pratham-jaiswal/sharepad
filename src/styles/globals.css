@@ -50,6 +50,7 @@ body {
       transparent 44%
     ),
     var(--bg);
+  padding-bottom: 6rem;
 }
 
 a {
@@ -475,5 +476,58 @@ label {
 
   .editor-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 80;
+  padding: 0.9rem 1rem;
+  text-align: center;
+  backdrop-filter: blur(14px);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+}
+
+footer p {
+  margin: 0;
+  line-height: 1.45;
+  font-size: 0.9rem;
+}
+
+footer p:last-child {
+  color: var(--text-soft);
+  font-size: 0.8rem;
+}
+
+.footer-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.footer-builtby::before {
+  content: "•";
+  margin-right: 0.35rem;
+}
+
+@media (max-width: 520px) {
+  .footer-main {
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .footer-builtby::before {
+    content: "";
+    margin: 0;
+  }
+
+  .footer-builtby {
+    white-space: normal;
   }
 }
