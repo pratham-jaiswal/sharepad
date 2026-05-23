@@ -11,7 +11,7 @@
     "test": "echo \"No tests configured yet\""
   },
   "author": "Pratham",
-  "license": "Apache-2.0",
+  "license": "AGPL-3.0-only",
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "jsonwebtoken": "^9.0.3",
