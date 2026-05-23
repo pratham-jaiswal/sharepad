@@ -248,10 +248,6 @@ label {
   background: color-mix(in srgb, var(--bg-elev) 74%, transparent);
 }
 
-.error {
-  color: var(--danger);
-}
-
 .editor-shell {
   display: grid;
   gap: 1rem;
@@ -286,134 +282,10 @@ label {
   color: #059669;
 }
 
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-  align-items: center;
-}
-
-.tool-btn {
-  padding: 0.62rem 0.95rem;
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--bg-elev) 88%, transparent);
-  border: 1px solid var(--line);
-  color: var(--text);
-  font-weight: 600;
-}
-
-.tool-btn.secondary {
-  background: color-mix(in srgb, var(--bg-elev) 94%, transparent);
-}
-
-.tool-btn:hover {
-  border-color: color-mix(in srgb, var(--brand-2) 55%, var(--line));
-  background: color-mix(in srgb, var(--bg-elev) 60%, var(--brand-2) 11%);
-}
-
 .editor-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
-}
-
-.editor-grid.preview-hidden {
-  grid-template-columns: 1fr;
-}
-
-.markdown-input {
-  min-height: 65vh;
-  resize: none;
-}
-
-.markdown-preview {
-  min-height: 65vh;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--bg-elev) 95%, transparent),
-    color-mix(in srgb, var(--bg-elev) 82%, transparent)
-  );
-  padding: 0.95rem 1.1rem;
-  overflow: auto;
-  line-height: 1.7;
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--line) 35%, transparent);
-}
-
-.markdown-preview h1,
-.markdown-preview h2,
-.markdown-preview h3,
-.markdown-preview h4 {
-  margin: 0.8rem 0 0.45rem;
-  line-height: 1.3;
-}
-
-.markdown-preview p,
-.markdown-preview li {
-  color: var(--text-soft);
-}
-
-.markdown-preview a {
-  color: var(--brand-2);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.markdown-preview img {
-  max-width: 100%;
-  border-radius: 10px;
-  border: 1px solid var(--line);
-}
-
-.markdown-preview pre {
-  overflow: auto;
-  padding: 0.65rem;
-  border-radius: 10px;
-  background: #0b1120;
-  border: 1px solid color-mix(in srgb, var(--line) 55%, #0b1120);
-}
-
-.markdown-preview pre code {
-  color: #dbeafe;
-}
-
-.markdown-preview :not(pre) > code {
-  background: color-mix(in srgb, var(--bg) 70%, transparent);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 0.1rem 0.35rem;
-}
-
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-literal,
-.hljs-section,
-.hljs-link {
-  color: #f472b6;
-}
-
-.hljs-string,
-.hljs-title,
-.hljs-name,
-.hljs-type,
-.hljs-attribute,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-addition {
-  color: #5eead4;
-}
-
-.hljs-number,
-.hljs-variable,
-.hljs-template-variable,
-.hljs-deletion {
-  color: #fcd34d;
-}
-
-.hljs-comment,
-.hljs-quote {
-  color: #94a3b8;
 }
 
 .prose h1,
@@ -455,28 +327,6 @@ label {
   border: none;
   padding: 0;
   cursor: pointer;
-}
-
-@media (max-width: 980px) {
-  .hero {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 860px) {
-  .topbar-inner {
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 0.45rem 0;
-  }
-
-  .page {
-    padding-top: 8.4rem;
-  }
-
-  .editor-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 footer {
@@ -541,6 +391,246 @@ footer p:last-child {
 #floating-patreon-btn img {
   width: 22px;
   height: 22px;
+}
+
+/* MDX Custom CSS */
+
+/* MDX Editor */
+
+/* MDX Custom CSS */
+
+/* Layout */
+
+.mdx-only {
+  grid-template-columns: 1fr;
+}
+
+.mdx-wrapper {
+  height: 65vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--bg-elev) 92%, transparent);
+  box-shadow: var(--shadow);
+}
+
+/* MDX Editor */
+
+.mdxeditor {
+  --baseBg: transparent;
+  --basePageBg: transparent;
+  --baseTextColor: var(--text);
+  --accentBase: var(--brand-2);
+  --accentBg: color-mix(in srgb, var(--brand-2) 18%, transparent);
+  --borderColor: var(--line);
+  --separatorColor: var(--line);
+  --selectionBg: color-mix(in srgb, var(--brand-2) 30%, transparent);
+  --scrollbarThumb: color-mix(in srgb, var(--line) 75%, transparent);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  color: var(--text);
+}
+
+/* Toolbar */
+
+.mdxeditor-toolbar {
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.7rem;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg-elev) 96%, transparent);
+  color: #0f172a;
+}
+
+/* Toolbar buttons */
+
+.mdxeditor-toolbar button,
+.mdx-toolbar-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none !important;
+  color: #0f172a !important;
+  border-radius: 10px;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.mdxeditor-toolbar button:hover,
+.mdx-toolbar-icon-btn:hover {
+  background: color-mix(in srgb, var(--brand-2) 12%, transparent) !important;
+  color: #0f172a !important;
+}
+
+.mdxeditor-toolbar [data-state="on"] {
+  background: color-mix(in srgb, var(--brand-2) 16%, transparent) !important;
+  color: #0f172a !important;
+}
+
+/* Custom copy button */
+
+.mdx-toolbar-icon-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mdx-toolbar-icon-btn:focus-visible {
+  outline: none;
+  border-color: color-mix(in srgb, var(--brand-2) 45%, var(--line));
+}
+
+/* Combobox triggers */
+
+.mdx-wrapper [role="combobox"] {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: transparent !important;
+  color: #0f172a !important;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.mdx-wrapper [role="combobox"] span,
+.mdx-wrapper [role="combobox"] svg {
+  color: #0f172a !important;
+}
+
+.mdx-wrapper [role="combobox"]:hover {
+  background: color-mix(in srgb, var(--brand-2) 12%, transparent) !important;
+}
+
+/* Dropdown popups */
+
+.mdxeditor-select-content,
+.mdxeditor-popup-container,
+[role="listbox"] {
+  background: var(--bg-elev) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--text) !important;
+}
+
+/* Dropdown options */
+
+[role="option"] {
+  color: var(--text) !important;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
+}
+
+[role="option"]:hover,
+[role="option"][data-highlighted] {
+  background: color-mix(in srgb, var(--brand-2) 14%, var(--bg-elev)) !important;
+  color: var(--text) !important;
+}
+
+/* Editor area */
+
+.mdxeditor-root-contenteditable {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1.1rem 1.2rem;
+  color: var(--text);
+  caret-color: var(--text);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+/* Typography */
+
+.mdxeditor-root-contenteditable h1,
+.mdxeditor-root-contenteditable h2,
+.mdxeditor-root-contenteditable h3,
+.mdxeditor-root-contenteditable h4,
+.mdxeditor-root-contenteditable h5,
+.mdxeditor-root-contenteditable h6 {
+  color: var(--text);
+  line-height: 1.25;
+  font-family: var(--font-heading), sans-serif;
+}
+
+.mdxeditor-root-contenteditable p,
+.mdxeditor-root-contenteditable li,
+.mdxeditor-root-contenteditable blockquote,
+.mdxeditor-root-contenteditable strong,
+.mdxeditor-root-contenteditable em {
+  color: var(--text);
+}
+
+.mdxeditor-root-contenteditable a {
+  color: var(--brand-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Inline code */
+
+.mdxeditor-root-contenteditable :not(pre) > code,
+.mdxeditor-root-contenteditable code[data-lexical-text="true"] {
+  padding: 0.1rem 0.38rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  color: #111827 !important;
+  font-size: 0.94em;
+}
+
+/* Tables */
+
+.mdxeditor table button {
+  background: none !important;
+}
+
+.mdxeditor table svg {
+  color: var(--text) !important;
+  cursor: pointer;
+}
+
+/* Images */
+
+.mdxeditor img {
+  max-width: 100%;
+  border-radius: 12px;
+}
+
+/* Dark mode */
+
+:root[data-theme="dark"] .mdx-wrapper {
+  background: #0f172a;
+}
+
+/* Reponsive Design */
+
+@media (max-width: 980px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .topbar-inner {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.45rem 0;
+  }
+
+  .page {
+    padding-top: 8.4rem;
+  }
+
+  .editor-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 520px) {
