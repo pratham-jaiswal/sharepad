@@ -48,7 +48,7 @@ export async function touchPadAccess(slug) {
   const pad = await Pad.findOneAndUpdate(
     { slug },
     { lastAccessedAt: new Date(), expiresAt: nextExpiry() },
-    { returnDocument: "after" }
+    { returnDocument: "after" },
   );
   return ensurePadContentShape(pad);
 }
@@ -63,7 +63,7 @@ export async function updatePadContent(slug, markdown) {
       lastAccessedAt: new Date(),
       expiresAt: nextExpiry(),
     },
-    { returnDocument: "after" }
+    { returnDocument: "after" },
   );
 }
 

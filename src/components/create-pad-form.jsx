@@ -47,8 +47,8 @@ export function CreatePadForm() {
         <p className="eyebrow">Share fast. Collaborate cleanly.</p>
         <h1>Markdown pads built for instant teamwork.</h1>
         <p>
-          Create a secure pad in seconds, share the link, and edit together with autosave. Pads expire 1 year
-          after last access.
+          Create a secure pad in seconds, share the link, and edit together with
+          autosave. Pads expire 1 year after last access.
         </p>
       </div>
 

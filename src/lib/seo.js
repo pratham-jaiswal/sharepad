@@ -32,6 +32,8 @@ export function generateMetadata({
       description,
       images: [imageUrl],
     },
-    robots: noIndex ? { index: false, follow: false } : { index: true, follow: true },
+    robots: noIndex
+      ? { index: false, follow: false }
+      : { index: true, follow: true },
   };
 }

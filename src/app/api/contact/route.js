@@ -25,7 +25,6 @@ async function sendWithResend(data) {
   });
 
   if (error) {
-    console.log(error)
     throw new Error(error.message || "Failed to send contact email.");
   }
 }

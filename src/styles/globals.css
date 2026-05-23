@@ -39,8 +39,16 @@ body {
   color: var(--text);
   font-family: var(--font-body), sans-serif;
   background:
-    radial-gradient(circle at 90% -10%, color-mix(in srgb, var(--brand-2) 28%, transparent), transparent 40%),
-    radial-gradient(circle at -10% 115%, color-mix(in srgb, var(--brand) 26%, transparent), transparent 44%),
+    radial-gradient(
+      circle at 90% -10%,
+      color-mix(in srgb, var(--brand-2) 28%, transparent),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at -10% 115%,
+      color-mix(in srgb, var(--brand) 26%, transparent),
+      transparent 44%
+    ),
     var(--bg);
 }
 
@@ -321,12 +329,11 @@ label {
   min-height: 65vh;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--bg-elev) 95%, transparent),
-      color-mix(in srgb, var(--bg-elev) 82%, transparent)
-    );
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--bg-elev) 95%, transparent),
+    color-mix(in srgb, var(--bg-elev) 82%, transparent)
+  );
   padding: 0.95rem 1.1rem;
   overflow: auto;
   line-height: 1.7;

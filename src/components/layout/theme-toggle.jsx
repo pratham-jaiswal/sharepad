@@ -12,7 +12,9 @@ export function ThemeToggle() {
   function apply(next) {
     if (next === "system") {
       localStorage.removeItem("theme");
-      const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const systemDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
       document.documentElement.dataset.theme = systemDark ? "dark" : "light";
     } else {
       localStorage.setItem("theme", next);

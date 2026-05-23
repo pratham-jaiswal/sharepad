@@ -5,5 +5,7 @@ export function jsonError(message, status = 400) {
 }
 
 export function getClientIp(request) {
-  return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
+  return (
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local"
+  );
 }

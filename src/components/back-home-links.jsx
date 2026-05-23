@@ -8,7 +8,11 @@ export function BackHomeLinks() {
 
   return (
     <div className="notfound-actions">
-      <button type="button" className="text-link-btn" onClick={() => router.back()}>
+      <button
+        type="button"
+        className="text-link-btn"
+        onClick={() => router.back()}
+      >
         Go Back
       </button>
       <Link href="/" className="inline-link">

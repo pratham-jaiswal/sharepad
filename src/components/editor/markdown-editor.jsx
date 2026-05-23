@@ -23,11 +23,18 @@ function getSelectedLineRange(value, start, end) {
   return { lineStart, lineEnd };
 }
 
-export function MarkdownEditor({ slug, initialMarkdown, initialExpiresAt, isProtected }) {
+export function MarkdownEditor({
+  slug,
+  initialMarkdown,
+  initialExpiresAt,
+  isProtected,
+}) {
   const [markdown, setMarkdown] = useState(initialMarkdown || "");
   const [status, setStatus] = useState("Saved");
   const [showPreview, setShowPreview] = useState(true);
-  const [expiresAt, setExpiresAt] = useState(initialExpiresAt ? new Date(initialExpiresAt) : null);
+  const [expiresAt, setExpiresAt] = useState(
+    initialExpiresAt ? new Date(initialExpiresAt) : null,
+  );
   const [mounted, setMounted] = useState(false);
   const textareaRef = useRef(null);
   const saveErrorToastShown = useRef(false);
@@ -35,7 +42,8 @@ export function MarkdownEditor({ slug, initialMarkdown, initialExpiresAt, isProt
 
   const expiryText = useMemo(() => {
     if (!expiresAt) return "Expiry unavailable";
-    if (!mounted) return expiresAt.toISOString().replace("T", " ").replace(".000Z", " UTC");
+    if (!mounted)
+      return expiresAt.toISOString().replace("T", " ").replace(".000Z", " UTC");
     return expiresAt.toLocaleString();
   }, [expiresAt, mounted]);
 
@@ -58,10 +66,16 @@ export function MarkdownEditor({ slug, initialMarkdown, initialExpiresAt, isProt
     const end = textarea.selectionEnd;
     const value = textarea.value;
     const selected = value.slice(start, end);
-    const wrapped = selected.startsWith(before) && selected.endsWith(after) && selected.length >= before.length + after.length;
+    const wrapped =
+      selected.startsWith(before) &&
+      selected.endsWith(after) &&
+      selected.length >= before.length + after.length;
 
     if (wrapped) {
-      const inner = selected.slice(before.length, selected.length - after.length);
+      const inner = selected.slice(
+        before.length,
+        selected.length - after.length,
+      );
       const next = `${value.slice(0, start)}${inner}${value.slice(end)}`;
       setNextValue(next, start, start + inner.length);
       return;
@@ -83,7 +97,8 @@ export function MarkdownEditor({ slug, initialMarkdown, initialExpiresAt, isProt
     const allPrefixed = lines.every((line) => line.startsWith(prefix));
 
     const nextLines = lines.map((line) => {
-      if (allPrefixed) return line.startsWith(prefix) ? line.slice(prefix.length) : line;
+      if (allPrefixed)
+        return line.startsWith(prefix) ? line.slice(prefix.length) : line;
       return line.startsWith(prefix) ? line : `${prefix}${line}`;
     });
 
@@ -133,10 +148,14 @@ export function MarkdownEditor({ slug, initialMarkdown, initialExpiresAt, isProt
     if (!url) return;
     const safeUrl = url.trim();
     if (!/^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(safeUrl)) {
-      toast.error("Please enter a valid URL with a scheme (https:, http:, ftp:, mailto:, etc.)");
+      toast.error(
+        "Please enter a valid URL with a scheme (https:, http:, ftp:, mailto:, etc.)",
+      );
       return;
     }
-    const selected = textarea.value.slice(textarea.selectionStart, textarea.selectionEnd) || "Link text";
+    const selected =
+      textarea.value.slice(textarea.selectionStart, textarea.selectionEnd) ||
+      "Link text";
     const snippet = `[${selected}](${safeUrl})`;
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
@@ -209,27 +228,93 @@ export function MarkdownEditor({ slug, initialMarkdown, initialExpiresAt, isProt
       <div className="editor-head">
         <h1>Pad: {slug}</h1>
         <p>Expires: {expiryText}</p>
-        <span className={`status ${status === "Saved" ? "ok" : ""}`}>{status}</span>
+        <span className={`status ${status === "Saved" ? "ok" : ""}`}>
+          {status}
+        </span>
       </div>
       <div className="editor-controls">
-        <button className="tool-btn secondary" onClick={() => setShowPreview((v) => !v)} type="button">
+        <button
+          className="tool-btn secondary"
+          onClick={() => setShowPreview((v) => !v)}
+          type="button"
+        >
           {showPreview ? "Hide Preview" : "Show Preview"}
         </button>
       </div>
 
       <div className="toolbar">
-        <button className="tool-btn" onClick={() => toggleWrapper("**")} type="button">Bold</button>
-        <button className="tool-btn" onClick={() => toggleWrapper("*")} type="button">Italic</button>
-        <button className="tool-btn" onClick={() => toggleWrapper("~~")} type="button">Strike</button>
-        <button className="tool-btn" onClick={() => toggleWrapper("`")} type="button">Inline Code</button>
-        <button className="tool-btn" onClick={() => insertAtCursor("\n```\ncode\n```\n")} type="button">Code Block</button>
-        <button className="tool-btn" onClick={() => toggleLinePrefix("# ")} type="button">H1</button>
-        <button className="tool-btn" onClick={() => toggleLinePrefix("## ")} type="button">H2</button>
-        <button className="tool-btn" onClick={() => toggleLinePrefix("- ")} type="button">Bullet List</button>
-        <button className="tool-btn" onClick={toggleNumberedList} type="button">Numbered List</button>
-        <button className="tool-btn" onClick={() => toggleLinePrefix("> ")} type="button">Quote</button>
-        <button className="tool-btn" onClick={insertLink} type="button">Hyperlink</button>
-        <button className="tool-btn" onClick={insertImageFromUrl} type="button">Image URL</button>
+        <button
+          className="tool-btn"
+          onClick={() => toggleWrapper("**")}
+          type="button"
+        >
+          Bold
+        </button>
+        <button
+          className="tool-btn"
+          onClick={() => toggleWrapper("*")}
+          type="button"
+        >
+          Italic
+        </button>
+        <button
+          className="tool-btn"
+          onClick={() => toggleWrapper("~~")}
+          type="button"
+        >
+          Strike
+        </button>
+        <button
+          className="tool-btn"
+          onClick={() => toggleWrapper("`")}
+          type="button"
+        >
+          Inline Code
+        </button>
+        <button
+          className="tool-btn"
+          onClick={() => insertAtCursor("\n```\ncode\n```\n")}
+          type="button"
+        >
+          Code Block
+        </button>
+        <button
+          className="tool-btn"
+          onClick={() => toggleLinePrefix("# ")}
+          type="button"
+        >
+          H1
+        </button>
+        <button
+          className="tool-btn"
+          onClick={() => toggleLinePrefix("## ")}
+          type="button"
+        >
+          H2
+        </button>
+        <button
+          className="tool-btn"
+          onClick={() => toggleLinePrefix("- ")}
+          type="button"
+        >
+          Bullet List
+        </button>
+        <button className="tool-btn" onClick={toggleNumberedList} type="button">
+          Numbered List
+        </button>
+        <button
+          className="tool-btn"
+          onClick={() => toggleLinePrefix("> ")}
+          type="button"
+        >
+          Quote
+        </button>
+        <button className="tool-btn" onClick={insertLink} type="button">
+          Hyperlink
+        </button>
+        <button className="tool-btn" onClick={insertImageFromUrl} type="button">
+          Image URL
+        </button>
       </div>
 
       <div className={`editor-grid ${showPreview ? "" : "preview-hidden"}`}>
@@ -246,7 +331,10 @@ export function MarkdownEditor({ slug, initialMarkdown, initialExpiresAt, isProt
         />
         {showPreview ? (
           <article className="markdown-preview">
-            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeHighlight]}
+            >
               {markdown}
             </ReactMarkdown>
           </article>

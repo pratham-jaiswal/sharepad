@@ -4,7 +4,12 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 export function ContactForm() {
-  const [form, setForm] = useState({ name: "", email: "", message: "", website: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+    website: "",
+  });
   const [loading, setLoading] = useState(false);
 
   function validate() {
