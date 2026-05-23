@@ -24,7 +24,13 @@ import {
   ListsToggle,
   CodeToggle,
   InsertCodeBlock,
-  TooltipWrap
+  InsertThematicBreak,
+  AdmonitionDirectiveDescriptor,
+  directivesPlugin,
+  InsertAdmonition,
+  Separator,
+  StrikeThroughSupSubToggles,
+  TooltipWrap,
 } from "@mdxeditor/editor";
 import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import { toast } from "sonner";
@@ -105,6 +111,7 @@ export function MDXEditorInner({ markdown, setMarkdown, dirtyRef }) {
 
   return (
     <MDXEditor
+      spellCheck={false}
       markdown={markdown}
       onChange={(value) => {
         dirtyRef.current = true;
@@ -132,18 +139,30 @@ export function MDXEditorInner({ markdown, setMarkdown, dirtyRef }) {
 
           codeBlockLanguages: codeBlockLanguages,
         }),
+        directivesPlugin({
+          directiveDescriptors: [AdmonitionDirectiveDescriptor],
+        }),
         toolbarPlugin({
           toolbarContents: () => (
             <>
               <UndoRedo />
+              <Separator />
               <BoldItalicUnderlineToggles />
+              <StrikeThroughSupSubToggles />
+              <Separator />
               <BlockTypeSelect />
-              <ListsToggle />
+              <Separator />
               <CreateLink />
               <InsertImage />
+              <Separator />
               <InsertTable />
+              <InsertThematicBreak />
+              <Separator />
               <CodeToggle />
               <InsertCodeBlock />
+              <Separator />
+              <InsertAdmonition />
+              <div style={{ flex: 1 }} />
               <TooltipWrap title="Copy markdown">
                 <button
                   type="button"
