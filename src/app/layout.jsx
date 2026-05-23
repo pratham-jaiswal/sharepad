@@ -63,6 +63,19 @@ export default function RootLayout({ children }) {
         >
           {JSON.stringify(jsonLd)}
         </Script>
+        <a
+          href="https://www.patreon.com/collection/1819237"
+          target="_blank"
+          rel="noopener"
+          id="floating-patreon-btn"
+          area-label="Support Me on Patreon"
+        >
+          <img
+            width="20px"
+            src="https://res.cloudinary.com/dhzmockpa/image/upload/v1745674680/PATREON_SYMBOL_1_BLACK_RGB_trsdty.svg"
+            alt="Support Me on Patreon"
+          />
+        </a>
         <Navbar />
         <AppToaster />
         <main className="container page">{children}</main>

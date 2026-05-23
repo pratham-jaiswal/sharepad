@@ -485,7 +485,7 @@ footer {
   right: 0;
   bottom: 0;
   z-index: 80;
-  padding: 0.9rem 1rem;
+  padding: 0.9rem 1rem calc(0.9rem + env(safe-area-inset-bottom));
   text-align: center;
   backdrop-filter: blur(14px);
   background: color-mix(in srgb, var(--bg) 82%, transparent);
@@ -514,6 +514,33 @@ footer p:last-child {
 .footer-builtby::before {
   content: "•";
   margin-right: 0.35rem;
+}
+
+#floating-patreon-btn {
+  position: fixed;
+  right: 20px;
+  bottom: calc(5.2rem + env(safe-area-inset-bottom));
+  width: 52px;
+  height: 52px;
+  background: #ff424d;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  z-index: 999;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+#floating-patreon-btn:hover {
+  transform: translateY(-2px);
+}
+
+#floating-patreon-btn img {
+  width: 22px;
+  height: 22px;
 }
 
 @media (max-width: 520px) {
