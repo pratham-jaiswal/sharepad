@@ -1,24 +1,41 @@
 {
   "name": "sharepad",
-  "version": "2.0.2",
-  "description": "SharePad is an online notepad that allows you to easily share and collaborate on text and related content with others, without the need for a login or account.",
-  "main": "app.js",
+  "version": "3.0.0",
+  "private": true,
+  "description": "SharePad is a modern markdown-first shared notepad built with Next.js.",
   "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "echo \"No tests configured yet\""
   },
   "author": "Pratham",
   "license": "Apache-2.0",
   "dependencies": {
-    "bcrypt": "^5.1.0",
-    "dotenv": "^16.0.3",
-    "ejs": "^3.1.9",
-    "express": "^4.18.2",
-    "geoip-lite": "^1.4.7",
-    "mongoose": "^7.3.1",
-    "socket.io": "^4.7.5"
+    "bcryptjs": "^3.0.3",
+    "jsonwebtoken": "^9.0.3",
+    "marked": "^18.0.4",
+    "mongoose": "^9.6.2",
+    "next": "^16.2.6",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-markdown": "^10.1.0",
+    "rehype-highlight": "^7.0.2",
+    "resend": "^6.12.3",
+    "remark-gfm": "^4.0.1",
+    "sanitize-html": "^2.17.4",
+    "sonner": "^2.0.7",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^10.4.0",
+    "eslint-config-next": "^16.2.6"
+  },
+  "overrides": {
+    "postcss": "^8.5.13"
   }
 }
