@@ -4,10 +4,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
 import {
-  decryptMarkdownWithPassword,
-  encryptMarkdownWithPassword,
+  decryptMarkdownWithKeyMaterial,
+  encryptMarkdownWithKeyMaterial,
 } from "@/lib/crypto-client";
-import { clearPadSecret, getPadSecret } from "@/lib/client-secret-store";
+import {
+  clearPadKeyMaterial,
+  getPadKeyMaterial,
+} from "@/lib/client-secret-store";
 
 const MDXEditorInner = dynamic(
   () => import("./mdx-editor-inner").then((m) => m.MDXEditorInner),
@@ -27,6 +30,10 @@ export function MarkdownEditor({
     isProtected ? "" : initialMarkdown || "",
   );
   const [status, setStatus] = useState("Saved");
+  const [ready, setReady] = useState(!isProtected);
+  const [waitingMessage, setWaitingMessage] = useState(
+    isProtected ? "Preparing secure session..." : "",
+  );
   const [expiresAt, setExpiresAt] = useState(
     initialExpiresAt ? new Date(initialExpiresAt) : null,
   );
@@ -43,18 +50,18 @@ export function MarkdownEditor({
   }, [expiresAt, mounted]);
 
   useEffect(() => {
+    if (isProtected && !ready) return;
     if (!dirtyRef.current) return;
     setStatus("Saving...");
     const timer = setTimeout(async () => {
       try {
         let body;
         if (isProtected) {
-          const password = getPadSecret(slug);
-          if (!password) throw new Error("Missing local password session.");
-          const encryptedPayload = await encryptMarkdownWithPassword(
-            password,
+          const keyMaterial = getPadKeyMaterial(slug);
+          if (!keyMaterial) throw new Error("Missing local encryption key.");
+          const encryptedPayload = await encryptMarkdownWithKeyMaterial(
+            keyMaterial,
             markdown,
-            encryptedPayloadRef.current?.salt || null,
           );
           encryptedPayloadRef.current = encryptedPayload;
           body = JSON.stringify({ encryptedPayload, revision: 0 });
@@ -87,7 +94,7 @@ export function MarkdownEditor({
       }
     }, 650);
     return () => clearTimeout(timer);
-  }, [markdown, slug, isProtected]);
+  }, [markdown, slug, isProtected, ready]);
 
   useEffect(() => {
     setMounted(true);
@@ -96,28 +103,39 @@ export function MarkdownEditor({
   useEffect(() => {
     if (!isProtected) return;
     const payload = initialEncryptedPayload;
-    if (!payload?.ciphertext) return;
+    if (!payload?.ciphertext) {
+      setReady(true);
+      return;
+    }
 
-    const password = getPadSecret(slug);
-    if (!password) {
+    const keyMaterial = getPadKeyMaterial(slug);
+    if (!keyMaterial) {
+      setWaitingMessage("Session locked. Redirecting to unlock...");
       fetch(`/api/pads/${slug}/lock`, {
         method: "POST",
         keepalive: true,
       }).finally(() => {
-        toast.error("Password not in memory. Please unlock again.");
-        window.location.reload();
+        window.location.replace(window.location.pathname);
       });
       return;
     }
 
     (async () => {
       try {
-        const plain = await decryptMarkdownWithPassword(password, payload);
+        const plain = await decryptMarkdownWithKeyMaterial(keyMaterial, payload);
         setMarkdown(plain);
         encryptedPayloadRef.current = payload;
         dirtyRef.current = false;
+        setReady(true);
       } catch {
         toast.error("Unable to decrypt this pad with current password.");
+        setWaitingMessage("Unable to decrypt. Redirecting to unlock...");
+        fetch(`/api/pads/${slug}/lock`, {
+          method: "POST",
+          keepalive: true,
+        }).finally(() => {
+          window.location.replace(window.location.pathname);
+        });
       }
     })();
   }, [isProtected, initialEncryptedPayload, slug]);
@@ -127,7 +145,7 @@ export function MarkdownEditor({
 
     const lock = () => {
       const url = `/api/pads/${slug}/lock`;
-      clearPadSecret(slug);
+      clearPadKeyMaterial(slug);
       if (navigator.sendBeacon) {
         navigator.sendBeacon(url, new Blob([], { type: "application/json" }));
       } else {
@@ -151,11 +169,17 @@ export function MarkdownEditor({
 
       <div className="editor-grid mdx-only">
         <div className="mdx-wrapper">
-          <MDXEditorInner
-            markdown={markdown}
-            setMarkdown={setMarkdown}
-            dirtyRef={dirtyRef}
-          />
+          {ready ? (
+            <MDXEditorInner
+              markdown={markdown}
+              setMarkdown={setMarkdown}
+              dirtyRef={dirtyRef}
+            />
+          ) : (
+            <div style={{ padding: "1rem", color: "var(--text-soft)" }}>
+              {waitingMessage}
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { setPadSecret } from "@/lib/client-secret-store";
+import { setPadKeyMaterial } from "@/lib/client-secret-store";
+import { createKeyMaterialFromPassword } from "@/lib/crypto-client";
 
 export function UnlockForm({ slug }) {
   const [password, setPassword] = useState("");
@@ -21,7 +22,19 @@ export function UnlockForm({ slug }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Unlock failed.");
-      setPadSecret(slug, password);
+
+      const padRes = await fetch(`/api/pads/${slug}`, { method: "GET" });
+      if (!padRes.ok) throw new Error("Unable to load encrypted pad metadata.");
+      const padData = await padRes.json();
+      const salt = padData?.encryptedPayload?.salt || null;
+      const iterations = padData?.encryptedPayload?.kdf?.iterations || 600000;
+      const keyMaterial = await createKeyMaterialFromPassword(
+        password,
+        salt,
+        iterations,
+      );
+      setPadKeyMaterial(slug, keyMaterial);
+
       toast.success("Pad unlocked.");
       router.refresh();
     } catch (err) {

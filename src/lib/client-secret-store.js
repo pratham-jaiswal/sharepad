@@ -20,3 +20,6 @@ export function getPadSecret(slug) {
 export function clearPadSecret(slug) {
   getGlobalStore().delete(slug);
 }
+export const setPadKeyMaterial = setPadSecret;
+export const getPadKeyMaterial = getPadSecret;
+export const clearPadKeyMaterial = clearPadSecret;

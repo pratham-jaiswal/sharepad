@@ -24,63 +24,59 @@ async function deriveKey(password, saltBytes, iterations = 600000) {
   );
 
   return crypto.subtle.deriveKey(
-    {
-      name: "PBKDF2",
-      salt: saltBytes,
-      iterations,
-      hash: "SHA-256",
-    },
+    { name: "PBKDF2", salt: saltBytes, iterations, hash: "SHA-256" },
     keyMaterial,
-    {
-      name: "AES-GCM",
-      length: 256,
-    },
+    { name: "AES-GCM", length: 256 },
     false,
     ["encrypt", "decrypt"],
   );
 }
 
-export async function encryptMarkdownWithPassword(
+export async function createKeyMaterialFromPassword(
   password,
-  markdown,
   existingSaltBase64 = null,
+  iterations = 600000,
 ) {
   const saltBytes = existingSaltBase64
     ? base64ToBytes(existingSaltBase64)
     : crypto.getRandomValues(new Uint8Array(16));
+  const key = await deriveKey(password, saltBytes, iterations);
+  return {
+    version: 1,
+    kdf: { hash: "SHA-256", iterations },
+    salt: bytesToBase64(saltBytes),
+    key,
+  };
+}
 
+export async function encryptMarkdownWithKeyMaterial(keyMaterial, markdown) {
   const ivBytes = crypto.getRandomValues(new Uint8Array(12));
-  const key = await deriveKey(password, saltBytes, 600000);
   const encrypted = await crypto.subtle.encrypt(
     { name: "AES-GCM", iv: ivBytes },
-    key,
+    keyMaterial.key,
     encoder.encode(markdown),
   );
 
   return {
     version: 1,
-    kdf: {
-      hash: "SHA-256",
-      iterations: 600000,
-    },
-    salt: bytesToBase64(saltBytes),
+    kdf: keyMaterial.kdf,
+    salt: keyMaterial.salt,
     iv: bytesToBase64(ivBytes),
     ciphertext: bytesToBase64(new Uint8Array(encrypted)),
   };
 }
 
-export async function decryptMarkdownWithPassword(password, encryptedPayload) {
+export async function decryptMarkdownWithKeyMaterial(
+  keyMaterial,
+  encryptedPayload,
+) {
   if (!encryptedPayload?.ciphertext) return "";
-
-  const saltBytes = base64ToBytes(encryptedPayload.salt);
   const ivBytes = base64ToBytes(encryptedPayload.iv);
   const ciphertextBytes = base64ToBytes(encryptedPayload.ciphertext);
-  const iterations = encryptedPayload?.kdf?.iterations || 600000;
-  const key = await deriveKey(password, saltBytes, iterations);
 
   const decrypted = await crypto.subtle.decrypt(
     { name: "AES-GCM", iv: ivBytes },
-    key,
+    keyMaterial.key,
     ciphertextBytes,
   );
 
