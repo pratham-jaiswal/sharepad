@@ -1,17 +1,24 @@
 import { NextResponse } from "next/server";
-import { getPad, touchPadAccess, updatePadContent } from "@/features/pads/service";
+import {
+  getPad,
+  touchPadAccess,
+  updatePadContent,
+  updatePadEncryptedContent,
+} from "@/features/pads/service";
 import { updatePadSchema } from "@/lib/validation/pads";
 import { hasPadAccess } from "@/lib/security/session";
 import { checkRateLimit } from "@/lib/security/rate-limit";
 import { getClientIp, jsonError } from "@/lib/http";
 
 function serializePad(pad) {
+  const protectedPad = Boolean(pad.passwordHash);
   return {
     slug: pad.slug,
-    markdown: pad.contentMarkdown || "",
+    markdown: protectedPad ? "" : pad.contentMarkdown || "",
+    encryptedPayload: protectedPad ? pad.encryptedPayload || null : null,
     expiresAt: pad.expiresAt,
     updatedAt: pad.updatedAt,
-    passwordProtected: Boolean(pad.passwordHash),
+    passwordProtected: protectedPad,
   };
 }
 
@@ -47,6 +54,17 @@ export async function PUT(request, { params }) {
   const parsed = updatePadSchema.safeParse(payload);
   if (!parsed.success) return jsonError("Invalid markdown payload.", 400);
 
-  const updated = await updatePadContent(slug, parsed.data.markdown);
+  let updated;
+  if (pad.passwordHash) {
+    if (!parsed.data.encryptedPayload) {
+      return jsonError("Encrypted payload required for protected pads.", 400);
+    }
+    updated = await updatePadEncryptedContent(slug, parsed.data.encryptedPayload);
+  } else {
+    if (typeof parsed.data.markdown !== "string") {
+      return jsonError("Markdown payload required.", 400);
+    }
+    updated = await updatePadContent(slug, parsed.data.markdown);
+  }
   return NextResponse.json(serializePad(updated));
 }

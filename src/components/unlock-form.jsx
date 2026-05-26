@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { setPadSecret } from "@/lib/client-secret-store";
 
 export function UnlockForm({ slug }) {
   const [password, setPassword] = useState("");
@@ -20,6 +21,7 @@ export function UnlockForm({ slug }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Unlock failed.");
+      setPadSecret(slug, password);
       toast.success("Pad unlocked.");
       router.refresh();
     } catch (err) {

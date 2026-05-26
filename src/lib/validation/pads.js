@@ -18,6 +18,18 @@ export const unlockPadSchema = z.object({
 });
 
 export const updatePadSchema = z.object({
-  markdown: z.string().max(200000),
+  markdown: z.string().max(200000).optional(),
+  encryptedPayload: z
+    .object({
+      version: z.literal(1),
+      kdf: z.object({
+        hash: z.literal("SHA-256"),
+        iterations: z.number().int().min(100000).max(2000000),
+      }),
+      salt: z.string().min(1),
+      iv: z.string().min(1),
+      ciphertext: z.string().min(1),
+    })
+    .optional(),
   revision: z.number().int().nonnegative().default(0),
 });

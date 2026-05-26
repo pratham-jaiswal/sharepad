@@ -67,6 +67,22 @@ export async function updatePadContent(slug, markdown) {
   );
 }
 
+export async function updatePadEncryptedContent(slug, encryptedPayload) {
+  return Pad.findOneAndUpdate(
+    { slug },
+    {
+      $set: {
+        encryptedPayload,
+        contentMarkdown: "",
+        contentHtmlCache: "",
+        lastAccessedAt: new Date(),
+        expiresAt: nextExpiry(),
+      },
+    },
+    { returnDocument: "after" },
+  );
+}
+
 export async function verifyPadPassword(pad, password) {
   if (!pad.passwordHash) return true;
   return bcrypt.compare(password, pad.passwordHash);

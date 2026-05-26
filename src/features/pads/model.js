@@ -12,6 +12,16 @@ const padSchema = new mongoose.Schema(
     contentMarkdown: { type: String, default: "" },
     contentHtmlCache: { type: String, default: "" },
     passwordHash: { type: String, default: null },
+    encryptedPayload: {
+      version: { type: Number, default: null },
+      kdf: {
+        hash: { type: String, default: null },
+        iterations: { type: Number, default: null },
+      },
+      salt: { type: String, default: null },
+      iv: { type: String, default: null },
+      ciphertext: { type: String, default: null },
+    },
     lastAccessedAt: { type: Date, required: true },
     expiresAt: { type: Date, required: true, index: true },
   },

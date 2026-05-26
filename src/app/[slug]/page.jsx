@@ -30,12 +30,29 @@ export default async function PadPage({ params }) {
   }
 
   const touched = await touchPadAccess(slug);
+  const plain = touched?.toObject ? touched.toObject() : touched;
+  const encryptedPayload = plain?.encryptedPayload
+    ? {
+        version: plain.encryptedPayload.version ?? null,
+        kdf: plain.encryptedPayload.kdf
+          ? {
+              hash: plain.encryptedPayload.kdf.hash ?? null,
+              iterations: plain.encryptedPayload.kdf.iterations ?? null,
+            }
+          : null,
+        salt: plain.encryptedPayload.salt ?? null,
+        iv: plain.encryptedPayload.iv ?? null,
+        ciphertext: plain.encryptedPayload.ciphertext ?? null,
+      }
+    : null;
+
   return (
     <MarkdownEditor
       slug={slug}
-      initialMarkdown={touched.contentMarkdown || ""}
-      initialExpiresAt={touched.expiresAt}
+      initialMarkdown={Boolean(pad.passwordHash) ? "" : plain.contentMarkdown || ""}
+      initialExpiresAt={plain.expiresAt ? new Date(plain.expiresAt).toISOString() : null}
       isProtected={Boolean(pad.passwordHash)}
+      initialEncryptedPayload={encryptedPayload}
     />
   );
 }

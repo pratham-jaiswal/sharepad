@@ -3,6 +3,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
+import {
+  decryptMarkdownWithPassword,
+  encryptMarkdownWithPassword,
+} from "@/lib/crypto-client";
+import { clearPadSecret, getPadSecret } from "@/lib/client-secret-store";
 
 const MDXEditorInner = dynamic(
   () => import("./mdx-editor-inner").then((m) => m.MDXEditorInner),
@@ -16,8 +21,9 @@ export function MarkdownEditor({
   initialMarkdown,
   initialExpiresAt,
   isProtected,
+  initialEncryptedPayload,
 }) {
-  const [markdown, setMarkdown] = useState(initialMarkdown || "");
+  const [markdown, setMarkdown] = useState(isProtected ? "" : initialMarkdown || "");
   const [status, setStatus] = useState("Saved");
   const [expiresAt, setExpiresAt] = useState(
     initialExpiresAt ? new Date(initialExpiresAt) : null,
@@ -25,6 +31,7 @@ export function MarkdownEditor({
   const [mounted, setMounted] = useState(false);
   const saveErrorToastShown = useRef(false);
   const dirtyRef = useRef(false);
+  const encryptedPayloadRef = useRef(initialEncryptedPayload || null);
 
   const expiryText = useMemo(() => {
     if (!expiresAt) return "Expiry unavailable";
@@ -38,27 +45,47 @@ export function MarkdownEditor({
     setStatus("Saving...");
     const timer = setTimeout(async () => {
       try {
+        let body;
+        if (isProtected) {
+          const password = getPadSecret(slug);
+          if (!password) throw new Error("Missing local password session.");
+          const encryptedPayload = await encryptMarkdownWithPassword(
+            password,
+            markdown,
+            encryptedPayloadRef.current?.salt || null,
+          );
+          encryptedPayloadRef.current = encryptedPayload;
+          body = JSON.stringify({ encryptedPayload, revision: 0 });
+        } else {
+          body = JSON.stringify({ markdown, revision: 0 });
+        }
+
         const res = await fetch(`/api/pads/${slug}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ markdown, revision: 0 }),
+          body,
         });
         if (!res.ok) throw new Error("Save failed");
         const data = await res.json();
         if (data?.expiresAt) setExpiresAt(new Date(data.expiresAt));
+        if (data?.encryptedPayload) {
+          encryptedPayloadRef.current = data.encryptedPayload;
+        }
         setStatus("Saved");
         saveErrorToastShown.current = false;
         dirtyRef.current = false;
       } catch (error) {
         setStatus("Retry needed");
         if (!saveErrorToastShown.current) {
-          toast.error("Autosave failed. Check your connection.");
+          toast.error(
+            error?.message || "Autosave failed. Check your connection.",
+          );
           saveErrorToastShown.current = true;
         }
       }
     }, 650);
     return () => clearTimeout(timer);
-  }, [markdown, slug]);
+  }, [markdown, slug, isProtected]);
 
   useEffect(() => {
     setMounted(true);
@@ -66,9 +93,36 @@ export function MarkdownEditor({
 
   useEffect(() => {
     if (!isProtected) return;
+    const payload = initialEncryptedPayload;
+    if (!payload?.ciphertext) return;
+
+    const password = getPadSecret(slug);
+    if (!password) {
+      fetch(`/api/pads/${slug}/lock`, { method: "POST", keepalive: true }).finally(() => {
+        toast.error("Password not in memory. Please unlock again.");
+        window.location.reload();
+      });
+      return;
+    }
+
+    (async () => {
+      try {
+        const plain = await decryptMarkdownWithPassword(password, payload);
+        setMarkdown(plain);
+        encryptedPayloadRef.current = payload;
+        dirtyRef.current = false;
+      } catch {
+        toast.error("Unable to decrypt this pad with current password.");
+      }
+    })();
+  }, [isProtected, initialEncryptedPayload, slug]);
+
+  useEffect(() => {
+    if (!isProtected) return;
 
     const lock = () => {
       const url = `/api/pads/${slug}/lock`;
+      clearPadSecret(slug);
       if (navigator.sendBeacon) {
         navigator.sendBeacon(url, new Blob([], { type: "application/json" }));
       } else {

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { setPadSecret } from "@/lib/client-secret-store";
 
 export function CreatePadForm() {
   const [slug, setSlug] = useState("");
@@ -22,6 +23,9 @@ export function CreatePadForm() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to create pad.");
+      if (password.trim()) {
+        setPadSecret(data.slug, password);
+      }
       toast.success("Pad created.");
       router.push(`/${data.slug}`);
     } catch (err) {
