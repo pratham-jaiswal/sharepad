@@ -151,6 +151,7 @@ export function MDXEditorInner({ markdown, setMarkdown, dirtyRef }) {
               <StrikeThroughSupSubToggles />
               <Separator />
               <BlockTypeSelect />
+              <ListsToggle />
               <Separator />
               <CreateLink />
               <InsertImage />

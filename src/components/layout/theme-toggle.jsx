@@ -5,19 +5,31 @@ import { useEffect, useState } from "react";
 export function ThemeToggle() {
   const [theme, setTheme] = useState("system");
 
+  function persistTheme(next) {
+    const maxAge = 60 * 60 * 24 * 365;
+    document.cookie = `sharepad_theme=${next}; path=/; max-age=${maxAge}; samesite=lax`;
+  }
+
   useEffect(() => {
-    setTheme(localStorage.getItem("theme") || "system");
+    const stored = localStorage.getItem("theme");
+    if (stored === "light" || stored === "dark" || stored === "system") {
+      setTheme(stored);
+      return;
+    }
+    setTheme("system");
   }, []);
 
   function apply(next) {
     if (next === "system") {
-      localStorage.removeItem("theme");
+      localStorage.setItem("theme", "system");
+      persistTheme("system");
       const systemDark = window.matchMedia(
         "(prefers-color-scheme: dark)",
       ).matches;
       document.documentElement.dataset.theme = systemDark ? "dark" : "light";
     } else {
       localStorage.setItem("theme", next);
+      persistTheme(next);
       document.documentElement.dataset.theme = next;
     }
     setTheme(next);

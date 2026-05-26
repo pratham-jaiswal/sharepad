@@ -1,5 +1,6 @@
 import { Inter, Space_Grotesk } from "next/font/google";
 import Script from "next/script";
+import { cookies } from "next/headers";
 import { Navbar } from "@/components/layout/navbar";
 import { AppToaster } from "@/components/layout/toaster";
 import { generateMetadata } from "@/lib/seo";
@@ -28,7 +29,12 @@ export const metadata = {
   ],
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const cookieStore = await cookies();
+  const storedTheme = cookieStore.get("sharepad_theme")?.value;
+  const ssrTheme =
+    storedTheme === "light" || storedTheme === "dark" ? storedTheme : undefined;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -41,7 +47,7 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-theme={ssrTheme} suppressHydrationWarning>
       <body
         className={`${inter.variable} ${grotesk.variable}`}
         suppressHydrationWarning
@@ -50,8 +56,15 @@ export default function RootLayout({ children }) {
           (() => {
             try {
               const stored = localStorage.getItem("theme");
+              const cookieTheme = document.cookie
+                .split("; ")
+                .find((c) => c.startsWith("sharepad_theme="))
+                ?.split("=")[1];
+              const preferred = stored || cookieTheme || "system";
               const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-              const theme = stored === "light" || stored === "dark" ? stored : (systemDark ? "dark" : "light");
+              const theme = preferred === "light" || preferred === "dark"
+                ? preferred
+                : (systemDark ? "dark" : "light");
               document.documentElement.dataset.theme = theme;
             } catch (_) {}
           })();
