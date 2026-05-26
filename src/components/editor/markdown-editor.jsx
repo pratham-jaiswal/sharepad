@@ -23,7 +23,9 @@ export function MarkdownEditor({
   isProtected,
   initialEncryptedPayload,
 }) {
-  const [markdown, setMarkdown] = useState(isProtected ? "" : initialMarkdown || "");
+  const [markdown, setMarkdown] = useState(
+    isProtected ? "" : initialMarkdown || "",
+  );
   const [status, setStatus] = useState("Saved");
   const [expiresAt, setExpiresAt] = useState(
     initialExpiresAt ? new Date(initialExpiresAt) : null,
@@ -98,7 +100,10 @@ export function MarkdownEditor({
 
     const password = getPadSecret(slug);
     if (!password) {
-      fetch(`/api/pads/${slug}/lock`, { method: "POST", keepalive: true }).finally(() => {
+      fetch(`/api/pads/${slug}/lock`, {
+        method: "POST",
+        keepalive: true,
+      }).finally(() => {
         toast.error("Password not in memory. Please unlock again.");
         window.location.reload();
       });

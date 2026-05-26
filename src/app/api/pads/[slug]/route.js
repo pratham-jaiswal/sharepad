@@ -39,7 +39,10 @@ export async function GET(_request, { params }) {
 export async function PUT(request, { params }) {
   const { slug } = await params;
   const ip = getClientIp(request);
-  const rate = checkRateLimit(`update:${slug}:${ip}`, { limit: 80, windowMs: 60_000 });
+  const rate = checkRateLimit(`update:${slug}:${ip}`, {
+    limit: 80,
+    windowMs: 60_000,
+  });
   if (!rate.allowed) return jsonError("Too many updates. Slow down.", 429);
 
   const pad = await getPad(slug);
@@ -59,7 +62,10 @@ export async function PUT(request, { params }) {
     if (!parsed.data.encryptedPayload) {
       return jsonError("Encrypted payload required for protected pads.", 400);
     }
-    updated = await updatePadEncryptedContent(slug, parsed.data.encryptedPayload);
+    updated = await updatePadEncryptedContent(
+      slug,
+      parsed.data.encryptedPayload,
+    );
   } else {
     if (typeof parsed.data.markdown !== "string") {
       return jsonError("Markdown payload required.", 400);

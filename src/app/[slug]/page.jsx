@@ -49,8 +49,12 @@ export default async function PadPage({ params }) {
   return (
     <MarkdownEditor
       slug={slug}
-      initialMarkdown={Boolean(pad.passwordHash) ? "" : plain.contentMarkdown || ""}
-      initialExpiresAt={plain.expiresAt ? new Date(plain.expiresAt).toISOString() : null}
+      initialMarkdown={
+        Boolean(pad.passwordHash) ? "" : plain.contentMarkdown || ""
+      }
+      initialExpiresAt={
+        plain.expiresAt ? new Date(plain.expiresAt).toISOString() : null
+      }
       isProtected={Boolean(pad.passwordHash)}
       initialEncryptedPayload={encryptedPayload}
     />
