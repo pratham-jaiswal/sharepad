@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 
-export function Navbar() {
+export function Navbar({ initialTheme = "system" }) {
   const pathname = usePathname();
 
   const navItems = [
@@ -36,7 +36,7 @@ export function Navbar() {
             );
           })}
         </nav>
-        <ThemeToggle />
+        <ThemeToggle initialTheme={initialTheme} />
       </div>
     </header>
   );

@@ -1,23 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export function ThemeToggle() {
-  const [theme, setTheme] = useState("system");
+export function ThemeToggle({ initialTheme = "system" }) {
+  const [theme, setTheme] = useState(initialTheme);
 
   function persistTheme(next) {
     const maxAge = 60 * 60 * 24 * 365;
     document.cookie = `sharepad_theme=${next}; path=/; max-age=${maxAge}; samesite=lax`;
   }
-
-  useEffect(() => {
-    const stored = localStorage.getItem("theme");
-    if (stored === "light" || stored === "dark" || stored === "system") {
-      setTheme(stored);
-      return;
-    }
-    setTheme("system");
-  }, []);
 
   function apply(next) {
     if (next === "system") {

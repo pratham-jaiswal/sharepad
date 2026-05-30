@@ -32,6 +32,10 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   const cookieStore = await cookies();
   const storedTheme = cookieStore.get("sharepad_theme")?.value;
+  const initialTheme =
+    storedTheme === "light" || storedTheme === "dark" || storedTheme === "system"
+      ? storedTheme
+      : "system";
   const ssrTheme =
     storedTheme === "light" || storedTheme === "dark" ? storedTheme : undefined;
 
@@ -89,7 +93,7 @@ export default async function RootLayout({ children }) {
             alt="Support Me on Patreon"
           />
         </a>
-        <Navbar />
+        <Navbar initialTheme={initialTheme} />
         <AppToaster />
         <main className="container page">{children}</main>
         <footer>
