@@ -146,9 +146,14 @@ a {
   border-radius: 999px;
 }
 
-.nav a:hover {
+.nav a:hover,
+.nav a.active {
   color: var(--text);
-  background: color-mix(in srgb, var(--bg) 65%, transparent);
+  background: color-mix(in srgb, var(--brand-2) 18%, var(--bg-elev));
+}
+
+.nav a.active {
+  font-weight: 700;
 }
 
 input,

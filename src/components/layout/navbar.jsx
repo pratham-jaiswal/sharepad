@@ -1,7 +1,19 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 
 export function Navbar() {
+  const pathname = usePathname();
+
+  const navItems = [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/terms", label: "Terms" },
+    { href: "/contact", label: "Contact" },
+  ];
+
   return (
     <header className="topbar">
       <div className="container topbar-inner">
@@ -9,11 +21,20 @@ export function Navbar() {
           <span className="brand-dot" />
           SharePad
         </Link>
-        <nav className="nav">
-          <Link href="/">Home</Link>
-          <Link href="/about">About</Link>
-          <Link href="/terms">Terms</Link>
-          <Link href="/contact">Contact</Link>
+        <nav className="nav" aria-label="Primary navigation">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={isActive ? "active" : ""}
+                aria-current={isActive ? "page" : undefined}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
         <ThemeToggle />
       </div>
