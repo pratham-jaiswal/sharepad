@@ -649,14 +649,6 @@ footer p:last-child {
   background: #0f172a;
 }
 
-/* Admonition */
-
-.mdxeditor
-  [data-lexical-decorator="true"]
-  [contenteditable="true"]:not(.cm-content):not(.cm-editor *) {
-  background: var(--bg-elev) !important;
-}
-
 /* Reponsive Design */
 
 @media (max-width: 980px) {

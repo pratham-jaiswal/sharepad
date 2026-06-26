@@ -25,18 +25,17 @@ import {
   CodeToggle,
   InsertCodeBlock,
   InsertThematicBreak,
-  AdmonitionDirectiveDescriptor,
-  directivesPlugin,
-  InsertAdmonition,
   Separator,
   StrikeThroughSupSubToggles,
   TooltipWrap,
+  ButtonOrDropdownButton,
 } from "@mdxeditor/editor";
 import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import { toast } from "sonner";
-import { Copy } from "lucide-react";
+import { Copy, Download } from "lucide-react";
+import { exportMarkdownFile } from "@/lib/export";
 
-export function MDXEditorInner({ markdown, setMarkdown, dirtyRef }) {
+export function MDXEditorInner({ markdown, setMarkdown, dirtyRef, slug }) {
   const codeBlockLanguages = Object.fromEntries(
     Object.entries({
       txt: "Text",
@@ -109,6 +108,15 @@ export function MDXEditorInner({ markdown, setMarkdown, dirtyRef }) {
     toast.success("Markdown copied");
   }
 
+  async function handleExport(format) {
+    try {
+      await exportMarkdownFile(format, markdown, slug || "sharepad");
+      toast.success(`${format.toUpperCase()} download ready`);
+    } catch (error) {
+      toast.error(error?.message || "Download failed");
+    }
+  }
+
   return (
     <MDXEditor
       spellCheck={false}
@@ -139,9 +147,6 @@ export function MDXEditorInner({ markdown, setMarkdown, dirtyRef }) {
 
           codeBlockLanguages: codeBlockLanguages,
         }),
-        directivesPlugin({
-          directiveDescriptors: [AdmonitionDirectiveDescriptor],
-        }),
         toolbarPlugin({
           toolbarContents: () => (
             <>
@@ -162,8 +167,23 @@ export function MDXEditorInner({ markdown, setMarkdown, dirtyRef }) {
               <CodeToggle />
               <InsertCodeBlock />
               <Separator />
-              <InsertAdmonition />
               <div style={{ flex: 1 }} />
+              <ButtonOrDropdownButton
+                title="Download"
+                items={[
+                  // { label: "PDF", value: "pdf" },
+                  { label: "DOCX", value: "docx" },
+                  { label: "Markdown", value: "md" },
+                  { label: "Text", value: "txt" },
+                  { label: "HTML", value: "html" },
+                ]}
+                onChoose={(value) => {
+                  if (!value) return;
+                  void handleExport(value);
+                }}
+              >
+                <Download size={18} />
+              </ButtonOrDropdownButton>
               <TooltipWrap title="Copy markdown">
                 <button
                   type="button"

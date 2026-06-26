@@ -174,6 +174,7 @@ export function MarkdownEditor({
               markdown={markdown}
               setMarkdown={setMarkdown}
               dirtyRef={dirtyRef}
+              slug={slug}
             />
           ) : (
             <div style={{ padding: "1rem", color: "var(--text-soft)" }}>
