@@ -30,10 +30,10 @@ import {
   TooltipWrap,
   ButtonOrDropdownButton,
 } from "@mdxeditor/editor";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import { toast } from "sonner";
-import { Copy, Download, Share2 } from "lucide-react";
+import { Copy, Download, Share2, ClipboardPaste } from "lucide-react";
 import { exportMarkdownFile } from "@/lib/export";
 
 export function MDXEditorInner({
@@ -44,10 +44,21 @@ export function MDXEditorInner({
   onReady,
 }) {
   const canShare = typeof navigator !== "undefined" && "share" in navigator;
+  const editorRef = useRef(null);
 
   useEffect(() => {
     onReady?.();
   }, [onReady]);
+
+  async function pasteMarkdown() {
+    try {
+      const text = await navigator.clipboard.readText();
+      editorRef.current?.insertMarkdown(text);
+      toast.success("Markdown imported");
+    } catch {
+      toast.error("Couldn't read clipboard");
+    }
+  }
 
   const codeBlockLanguages = Object.fromEntries(
     Object.entries({
@@ -158,6 +169,7 @@ export function MDXEditorInner({
 
   return (
     <MDXEditor
+      ref={editorRef}
       spellCheck={false}
       markdown={markdown}
       onChange={(value) => {
@@ -206,6 +218,15 @@ export function MDXEditorInner({
               <CodeToggle />
               <InsertCodeBlock />
               <Separator />
+              <TooltipWrap title="Paste Markdown">
+                <button
+                  type="button"
+                  className="mdx-toolbar-icon-btn"
+                  onClick={pasteMarkdown}
+                >
+                  <ClipboardPaste size={18} />
+                </button>
+              </TooltipWrap>
               <div style={{ flex: 1 }} />
               <ButtonOrDropdownButton
                 title="Download"
