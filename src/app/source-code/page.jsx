@@ -140,6 +140,24 @@ export default function SourceCodePage() {
           </li>
         </ul>
       </section>
+
+      <section>
+        <h2>6. Support the Project</h2>
+
+        <p>
+          SharePad is developed and maintained as an open-source project and is
+          free to use. If you'd like to help cover hosting costs and support
+          continued development, consider supporting the project through{" "}
+          <a
+            href="https://www.patreon.com/collection/1819237"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Patreon
+          </a>
+          .
+        </p>
+      </section>
     </article>
   );
 }

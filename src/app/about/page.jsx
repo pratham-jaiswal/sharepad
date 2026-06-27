@@ -224,6 +224,20 @@ export default function AboutPage() {
         </p>
 
         <p>
+          SharePad is developed and maintained in my spare time and is free to
+          use. If you find the project useful and would like to support its
+          continued development, please consider supporting it through{" "}
+          <a
+            href="https://www.patreon.com/collection/1819237"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Patreon
+          </a>
+          .
+        </p>
+
+        <p>
           Have a question, found a bug, or want to suggest a feature? Visit the{" "}
           <Link href="/contact" className="inline-link">
             Contact
