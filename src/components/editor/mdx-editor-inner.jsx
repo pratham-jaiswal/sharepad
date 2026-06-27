@@ -30,13 +30,24 @@ import {
   TooltipWrap,
   ButtonOrDropdownButton,
 } from "@mdxeditor/editor";
+import { useEffect } from "react";
 import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import { toast } from "sonner";
 import { Copy, Download, Share2 } from "lucide-react";
 import { exportMarkdownFile } from "@/lib/export";
 
-export function MDXEditorInner({ markdown, setMarkdown, dirtyRef, slug }) {
+export function MDXEditorInner({
+  markdown,
+  setMarkdown,
+  dirtyRef,
+  slug,
+  onReady,
+}) {
   const canShare = typeof navigator !== "undefined" && "share" in navigator;
+
+  useEffect(() => {
+    onReady?.();
+  }, [onReady]);
 
   const codeBlockLanguages = Object.fromEntries(
     Object.entries({
@@ -222,7 +233,9 @@ export function MDXEditorInner({ markdown, setMarkdown, dirtyRef, slug }) {
                   <Copy size={18} />
                 </button>
               </TooltipWrap>
-              <TooltipWrap title={canShare ? "Share this pad" : "Copy pad link"}>
+              <TooltipWrap
+                title={canShare ? "Share this pad" : "Copy pad link"}
+              >
                 <button
                   type="button"
                   className="mdx-toolbar-icon-btn"

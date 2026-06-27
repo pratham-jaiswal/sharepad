@@ -12,10 +12,26 @@ import {
   getPadKeyMaterial,
 } from "@/lib/client-secret-store";
 
+function EditorLoadingSkeleton() {
+  return (
+    <div className="editor-skeleton">
+      <div className="editor-skeleton-toolbar" />
+      <div className="editor-skeleton-body">
+        <div className="editor-skeleton-line short" />
+        <div className="editor-skeleton-line" />
+        <div className="editor-skeleton-line" />
+        <div className="editor-skeleton-line long" />
+        <div className="editor-skeleton-line" />
+      </div>
+    </div>
+  );
+}
+
 const MDXEditorInner = dynamic(
   () => import("./mdx-editor-inner").then((m) => m.MDXEditorInner),
   {
     ssr: false,
+    loading: () => <EditorLoadingSkeleton />,
   },
 );
 
@@ -38,9 +54,14 @@ export function MarkdownEditor({
     initialExpiresAt ? new Date(initialExpiresAt) : null,
   );
   const [mounted, setMounted] = useState(false);
+  const [editorLoaded, setEditorLoaded] = useState(false);
   const saveErrorToastShown = useRef(false);
   const dirtyRef = useRef(false);
   const encryptedPayloadRef = useRef(initialEncryptedPayload || null);
+
+  useEffect(() => {
+    setEditorLoaded(false);
+  }, [slug, ready]);
 
   const expiryText = useMemo(() => {
     if (!expiresAt) return "Expiry unavailable";
@@ -122,7 +143,10 @@ export function MarkdownEditor({
 
     (async () => {
       try {
-        const plain = await decryptMarkdownWithKeyMaterial(keyMaterial, payload);
+        const plain = await decryptMarkdownWithKeyMaterial(
+          keyMaterial,
+          payload,
+        );
         setMarkdown(plain);
         encryptedPayloadRef.current = payload;
         dirtyRef.current = false;
@@ -170,12 +194,20 @@ export function MarkdownEditor({
       <div className="editor-grid mdx-only">
         <div className="mdx-wrapper">
           {ready ? (
-            <MDXEditorInner
-              markdown={markdown}
-              setMarkdown={setMarkdown}
-              dirtyRef={dirtyRef}
-              slug={slug}
-            />
+            <>
+              <MDXEditorInner
+                markdown={markdown}
+                setMarkdown={setMarkdown}
+                dirtyRef={dirtyRef}
+                slug={slug}
+                onReady={() => setEditorLoaded(true)}
+              />
+              {!editorLoaded && (
+                <div className="editor-loading-overlay">
+                  <EditorLoadingSkeleton />
+                </div>
+              )}
+            </>
           ) : (
             <div style={{ padding: "1rem", color: "var(--text-soft)" }}>
               {waitingMessage}
