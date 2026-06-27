@@ -13,6 +13,8 @@ export function CreatePadForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const date = new Date();
+
   async function onSubmit(event) {
     event.preventDefault();
     setLoading(true);
@@ -69,7 +71,7 @@ export function CreatePadForm() {
               minLength={6}
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
-              placeholder="launch-plan-2026"
+              placeholder={`sprint-plan-${date.toLocaleString('default', { month: 'long' }).toLowerCase()}-${date.getFullYear()}`}
             />
           </label>
           <label>
@@ -94,7 +96,7 @@ export function CreatePadForm() {
             <input
               value={joinSlug}
               onChange={(e) => setJoinSlug(e.target.value)}
-              placeholder="team-notes"
+              placeholder={`meet-notes-${date.toLocaleDateString('en-CA')}`}
             />
           </label>
           <button type="submit">Open Pad</button>
