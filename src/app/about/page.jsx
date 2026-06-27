@@ -38,8 +38,9 @@ export default function AboutPage() {
         <ul>
           <li>
             <strong>Privacy First:</strong> No user accounts, no advertising,
-            and no third-party analytics. Only the information necessary to
-            operate the service is processed.
+            and no behavioral analytics. Limited technical monitoring is used
+            solely to detect errors, improve reliability, and maintain the
+            service.
           </li>
 
           <li>

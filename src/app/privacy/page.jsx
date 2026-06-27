@@ -22,8 +22,10 @@ export default function PrivacyPage() {
         </p>
         <p>
           SharePad is designed to minimize data collection and protect your
-          content. We do not require user accounts, and we do not use analytics
-          or advertising tools to track your browsing behavior.
+          content. We do not require user accounts, and we do not use
+          advertising or behavioral analytics to track your browsing behavior.
+          We do use technical monitoring and diagnostics tools to detect errors,
+          monitor service performance, and improve the reliability of SharePad.
         </p>
       </section>
 
@@ -55,6 +57,16 @@ export default function PrivacyPage() {
           technical information such as IP addresses in server logs for
           security, troubleshooting, and abuse prevention. We do not use this
           information to identify users or build profiles.
+        </p>
+
+        <p>
+          To help operate and improve the service, we may collect technical
+          diagnostic information such as browser type, operating system, request
+          metadata, timestamps, stack traces, log messages, and performance
+          metrics. This information is used solely for debugging, security,
+          monitoring, and improving the service. We make reasonable efforts to
+          avoid collecting pad contents, passwords, or other sensitive
+          information through these diagnostics.
         </p>
       </section>
 
@@ -108,13 +120,14 @@ export default function PrivacyPage() {
 
         <p>
           SharePad relies on third-party infrastructure providers, such as
-          hosting and email delivery services, to operate the service. These
-          providers process only the information necessary to provide their
-          services.
+          hosting, email delivery, and technical monitoring providers, to
+          operate and maintain the service. These providers process only the
+          information necessary to provide their services.
         </p>
 
         <p>
-          SharePad does not use third-party analytics or advertising services.
+          SharePad does not use advertising services or behavioral analytics to
+          profile users or deliver targeted advertising.
         </p>
       </section>
 

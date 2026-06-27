@@ -314,9 +314,14 @@ export default function TermsPage() {
       <section>
         <h2>12. Third-Party Services</h2>
         <p>
-          SharePad may use third-party services such as hosting providers or
-          email delivery services to operate the service. We do not use
-          third-party analytics or advertising services.
+          SharePad may use third-party service providers, including providers
+          for hosting, email delivery, and technical monitoring, to operate,
+          secure, and improve the service. These providers process only the
+          information necessary to perform their services.
+        </p>
+        <p>
+          SharePad does not use advertising services or behavioral analytics for
+          user profiling or targeted advertising.
         </p>
       </section>
 
