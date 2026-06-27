@@ -43,6 +43,8 @@ const RESERVED_SLUGS = [
   "sw",
   "_next",
   "favicon",
+  "sentry-example-page",
+  "sentry",
 ];
 
 export function isReservedSlug(slug) {
