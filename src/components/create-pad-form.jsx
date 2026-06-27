@@ -54,7 +54,8 @@ export function CreatePadForm() {
         <h1>Markdown pads built for instant teamwork.</h1>
         <p>
           Create a secure pad in seconds, share the link, and edit together with
-          autosave. Pads expire 1 year after last access.
+          autosave. Pads expire after the configured inactivity period since
+          their last access.
         </p>
       </div>
 

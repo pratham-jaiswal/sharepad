@@ -1,12 +1,13 @@
 import bcrypt from "bcryptjs";
 import { connectDb } from "@/lib/db";
 import { markdownToSafeHtml } from "@/lib/markdown";
+import { padExpiryDays } from "@/lib/env";
 import { Pad } from "@/features/pads/model";
 
-const YEAR_MS = 365 * 24 * 60 * 60 * 1000;
+const EXPIRY_MS = padExpiryDays * 24 * 60 * 60 * 1000;
 
 function nextExpiry() {
-  return new Date(Date.now() + YEAR_MS);
+  return new Date(Date.now() + EXPIRY_MS);
 }
 
 async function ensurePadContentShape(pad) {

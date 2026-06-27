@@ -74,8 +74,8 @@ export default function AboutPage() {
           </li>
 
           <li>
-            Pads automatically expire one year after their last access to help
-            reduce unused data.
+            Pads automatically expire after the configured inactivity period
+            since their last access to help reduce unused data.
           </li>
         </ol>
       </section>
@@ -117,7 +117,7 @@ export default function AboutPage() {
 
           <li>
             <strong>Automatic Expiry:</strong> Pads are automatically removed
-            one year after their last access.
+            after the configured inactivity period since their last access.
           </li>
         </ul>
       </section>
@@ -151,7 +151,8 @@ export default function AboutPage() {
 
           <li>
             <strong>Automatic Expiry:</strong> Every pad is automatically
-            deleted one year after its last access.
+            deleted after the configured inactivity period since their last
+            access.
           </li>
 
           <li>

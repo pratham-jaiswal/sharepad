@@ -96,9 +96,10 @@ export default function PrivacyPage() {
         </p>
 
         <p>
-          Pads are automatically deleted one year after their last access.
-          Although we make reasonable efforts to preserve data during that
-          period, SharePad should not be relied upon as your sole backup.
+          Pads are automatically deleted after the configured inactivity period
+          since their last access. Although we make reasonable efforts to
+          preserve data during that period, SharePad should not be relied upon
+          as your sole backup.
         </p>
       </section>
 

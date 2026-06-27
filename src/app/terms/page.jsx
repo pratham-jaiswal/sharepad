@@ -180,8 +180,9 @@ export default function TermsPage() {
         </p>
         <p>
           <strong>Automatic Expiry:</strong> All pads are automatically deleted
-          1 year after the last access. You are not responsible for manually
-          deleting content—we handle this automatically.
+          after the configured inactivity period since their last access. You
+          are not responsible for manually deleting content—we handle this
+          automatically.
         </p>
         <p>
           <strong>No Data Portability:</strong> We do not provide backups or
