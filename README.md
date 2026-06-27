@@ -9,6 +9,7 @@ Create a pad, share the link, and start collaborating—no accounts, no registra
 ## Features
 
 - 📝 Markdown editor with live preview and formatting toolbar
+- 📤 Export pads as PDF, DOCX, TXT, Markdown, HTML, and PNG
 - ⚡ Automatic saving while you write
 - 🔒 Optional password-protected pads with client-side encryption
 - 🍪 Secure HTTP-only session authentication for protected pads
