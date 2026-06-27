@@ -784,7 +784,9 @@ footer p:last-child {
   }
 
   .page {
-    padding-top: 8.4rem;
+    padding-top: 9.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 
   .editor-grid {
@@ -793,6 +795,16 @@ footer p:last-child {
 }
 
 @media (max-width: 520px) {
+  .container {
+    width: min(1160px, 88vw);
+  }
+
+  .page {
+    padding-top: 11rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   .footer-main {
     flex-direction: column;
     gap: 0.1rem;
