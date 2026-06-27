@@ -12,10 +12,11 @@ export function BackHomeLinks() {
         type="button"
         className="text-link-btn"
         onClick={() => router.back()}
+        aria-label="Go back to previous page"
       >
         Go Back
       </button>
-      <Link href="/" className="inline-link">
+      <Link href="/" className="inline-link" aria-label="Go to home page">
         Go Home
       </Link>
     </div>

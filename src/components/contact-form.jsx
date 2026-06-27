@@ -65,36 +65,50 @@ export function ContactForm() {
     <form className="card stack" onSubmit={onSubmit}>
       <h1>Contact</h1>
       <p>Use this form for feature feedback, bugs, or partnership requests.</p>
-      <input
-        minLength={1}
-        placeholder="Name"
-        value={form.name}
-        onChange={(e) => setForm((x) => ({ ...x, name: e.target.value }))}
-        required
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={form.email}
-        onChange={(e) => setForm((x) => ({ ...x, email: e.target.value }))}
-        required
-      />
-      <textarea
-        placeholder="Message"
-        rows={8}
-        minLength={11}
-        value={form.message}
-        onChange={(e) => setForm((x) => ({ ...x, message: e.target.value }))}
-        required
-      />
+      <label>
+        Name
+        <input
+          minLength={1}
+          placeholder="Your name"
+          value={form.name}
+          onChange={(e) => setForm((x) => ({ ...x, name: e.target.value }))}
+          required
+        />
+      </label>
+      <label>
+        Email
+        <input
+          type="email"
+          placeholder="your@email.com"
+          value={form.email}
+          onChange={(e) => setForm((x) => ({ ...x, email: e.target.value }))}
+          required
+        />
+      </label>
+      <label>
+        Message
+        <textarea
+          placeholder="Tell us your feedback or questions..."
+          rows={8}
+          minLength={11}
+          value={form.message}
+          onChange={(e) => setForm((x) => ({ ...x, message: e.target.value }))}
+          required
+        />
+      </label>
       <input
         tabIndex={-1}
         autoComplete="off"
         className="honeypot"
         value={form.website}
         onChange={(e) => setForm((x) => ({ ...x, website: e.target.value }))}
+        aria-hidden="true"
       />
-      <button type="submit" disabled={loading}>
+      <button
+        type="submit"
+        disabled={loading}
+        aria-label={loading ? "Sending message..." : "Send message"}
+      >
         {loading ? "Sending..." : "Send Message"}
       </button>
     </form>

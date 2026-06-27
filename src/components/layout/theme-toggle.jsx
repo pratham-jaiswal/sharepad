@@ -32,6 +32,8 @@ export function ThemeToggle({ initialTheme = "system" }) {
         type="button"
         className={`theme-btn ${theme === "light" ? "active" : ""}`}
         onClick={() => apply("light")}
+        aria-label="Light theme"
+        aria-pressed={theme === "light"}
       >
         Light
       </button>
@@ -39,6 +41,8 @@ export function ThemeToggle({ initialTheme = "system" }) {
         type="button"
         className={`theme-btn ${theme === "dark" ? "active" : ""}`}
         onClick={() => apply("dark")}
+        aria-label="Dark theme"
+        aria-pressed={theme === "dark"}
       >
         Dark
       </button>
@@ -46,6 +50,8 @@ export function ThemeToggle({ initialTheme = "system" }) {
         type="button"
         className={`theme-btn ${theme === "system" ? "active" : ""}`}
         onClick={() => apply("system")}
+        aria-label="Auto theme (system preference)"
+        aria-pressed={theme === "system"}
       >
         Auto
       </button>

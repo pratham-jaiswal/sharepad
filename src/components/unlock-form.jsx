@@ -48,14 +48,22 @@ export function UnlockForm({ slug }) {
     <form className="card stack" onSubmit={onSubmit}>
       <h1>Protected Pad</h1>
       <p>Enter the pad password to continue.</p>
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-        placeholder="Password"
-      />
-      <button type="submit" disabled={loading}>
+      <label>
+        Password
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          placeholder="Enter password"
+          aria-label="Pad password"
+        />
+      </label>
+      <button
+        type="submit"
+        disabled={loading}
+        aria-label={loading ? "Unlocking pad..." : "Unlock pad"}
+      >
         {loading ? "Unlocking..." : "Unlock"}
       </button>
     </form>
