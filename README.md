@@ -17,6 +17,7 @@ Create a pad, share the link, and start collaborating—no accounts, no registra
 - 📬 Contact form with validation and anti-spam protection
 - 🔍 SEO-friendly metadata, sitemap, robots.txt, and structured data
 - 🚀 Built with the Next.js App Router
+- 📈 Error monitoring and crash reporting with Sentry
 
 ---
 
@@ -76,14 +77,15 @@ http://localhost:3000
 
 ## Environment Variables
 
-| Variable           | Description                                                    |
-| ------------------ | -------------------------------------------------------------- |
-| `MONGODB_URL`      | MongoDB connection string                                      |
-| `JWT_SECRET`       | Secret used to sign authentication tokens                      |
-| `APP_BASE_URL`     | Public base URL of the application                             |
-| `CONTACT_TO_EMAIL` | Destination email for contact form submissions                 |
-| `RESEND_API_KEY`   | API key for the email provider                                 |
-| `PAD_EXPIRY_DAYS`  | Number of days of inactivity before pads expire (default: 365) |
+| Variable            | Description                                                    |
+| ------------------- | -------------------------------------------------------------- |
+| `MONGODB_URL`       | MongoDB connection string                                      |
+| `JWT_SECRET`        | Secret used to sign authentication tokens                      |
+| `APP_BASE_URL`      | Public base URL of the application                             |
+| `CONTACT_TO_EMAIL`  | Destination email for contact form submissions                 |
+| `RESEND_API_KEY`    | API key for the email provider                                 |
+| `PAD_EXPIRY_DAYS`   | Number of days of inactivity before pads expire (default: 365) |
+| `SENTRY_AUTH_TOKEN` | Authentication token used during build to upload source maps   |
 
 ---
 
@@ -94,6 +96,7 @@ http://localhost:3000
 - HTTP-only session cookies are used for authentication.
 - Pads automatically expire after the configured inactivity period.
 - SharePad does not require user accounts.
+- Application errors are monitored using Sentry to improve reliability.
 
 For more information, see the project's Privacy Policy and Terms of Service.
 
