@@ -59,6 +59,8 @@ APP_BASE_URL=http://localhost:3000
 CONTACT_TO_EMAIL=hello@example.com
 RESEND_API_KEY=your=-resend-api-key
 PAD_EXPIRY_DAYS=365
+
+SENTRY_AUTH_TOKEN=your-sentry-auth-token
 ```
 
 Start the development server:
