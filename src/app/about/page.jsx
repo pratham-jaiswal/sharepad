@@ -2,7 +2,7 @@ import Link from "next/link";
 import { generateMetadata } from "@/lib/seo";
 
 export const metadata = generateMetadata({
-  title: "About SharePad",
+  title: "About | SharePad",
   description:
     "Learn about SharePad, a privacy-first, markdown-first collaboration notepad with optional password-protected encryption.",
   path: "/about",

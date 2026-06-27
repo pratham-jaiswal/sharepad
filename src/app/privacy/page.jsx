@@ -2,7 +2,7 @@ import Link from "next/link";
 import { generateMetadata } from "@/lib/seo";
 
 export const metadata = generateMetadata({
-  title: "SharePad Privacy Policy",
+  title: "Privacy Policy | SharePad",
   description:
     "SharePad privacy policy describing what data is collected, how it is used, and how protected pads work.",
   path: "/privacy",

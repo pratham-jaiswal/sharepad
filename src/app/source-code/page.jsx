@@ -6,7 +6,7 @@ const CONTRIBUTING_URL = `${REPO_URL}/blob/main/CONTRIBUTING.md`;
 const LICENSE_URL = `${REPO_URL}/blob/main/LICENSE`;
 
 export const metadata = generateMetadata({
-  title: "SharePad Source Code",
+  title: "Source Code and Contribution | SharePad",
   description:
     "Explore the SharePad source code, contribution guidelines, and licensing information.",
   path: "/source-code",

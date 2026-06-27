@@ -1,7 +1,7 @@
 import { generateMetadata } from "@/lib/seo";
 
 export const metadata = generateMetadata({
-  title: "SharePad Terms and Acceptable Use",
+  title: "Terms and Acceptable Use | SharePad",
   description: "Terms of service and acceptable use policy for SharePad.",
   path: "/terms",
 });

@@ -10,7 +10,7 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   if (isReservedSlug(slug)) return {};
   return buildMetadata({
-    title: `SharePad | ${slug}`,
+    title: `${slug} | SharePad`,
     description: "Collaborative markdown note.",
     path: `/${slug}`,
     noIndex: true,
