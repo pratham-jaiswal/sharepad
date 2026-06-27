@@ -134,7 +134,12 @@ export function MDXEditorInner({
 
   async function handleExport(format) {
     try {
-      await exportMarkdownFile(format, markdown, slug || "sharepad");
+      await exportMarkdownFile(
+        format,
+        markdown,
+        slug || "sharepad",
+        document.querySelector(".mdx-content"),
+      );
       toast.success(`${format.toUpperCase()} download ready`);
     } catch (error) {
       toast.error(error?.message || "Download failed");
@@ -231,11 +236,12 @@ export function MDXEditorInner({
               <ButtonOrDropdownButton
                 title="Download"
                 items={[
-                  // { label: "PDF", value: "pdf" },
+                  { label: "PDF", value: "pdf" },
                   { label: "DOCX", value: "docx" },
                   { label: "Markdown", value: "md" },
                   { label: "Text", value: "txt" },
                   { label: "HTML", value: "html" },
+                  { label: "PNG", value: "png" },
                 ]}
                 onChoose={(value) => {
                   if (!value) return;

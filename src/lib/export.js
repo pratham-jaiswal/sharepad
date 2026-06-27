@@ -14,6 +14,8 @@ import {
   BorderStyle,
   ImageRun,
 } from "docx";
+import { domToBlob } from "modern-screenshot";
+import { PDFDocument } from "pdf-lib";
 
 function normalizeFilename(filename) {
   return filename.replace(/[^a-zA-Z0-9-_\.]/g, "-").replace(/-+/g, "-");
@@ -39,7 +41,9 @@ function resolveImageSource(src) {
   if (!src) return "";
   try {
     const baseHref =
-      typeof window !== "undefined" ? window.location.href : "http://localhost/";
+      typeof window !== "undefined"
+        ? window.location.href
+        : "http://localhost/";
     return new URL(src, baseHref).href;
   } catch {
     return src;
@@ -206,7 +210,9 @@ async function createInlineRuns(tokens = []) {
     }
 
     if (token.type === "image") {
-      const source = resolveImageSource(token.href || token.url || token.src || "");
+      const source = resolveImageSource(
+        token.href || token.url || token.src || "",
+      );
       if (source) {
         try {
           const bytes = await fetchImageBytes(source);
@@ -281,15 +287,16 @@ function createDocxTable(token) {
   const align = token.align || [];
 
   const headerRow = new TableRow({
-    children: header.map((cell) =>
-      new TableCell({
-        children: [
-          new Paragraph({
-            spacing: defaultParagraphSpacing,
-            children: [new TextRun({ text: String(cell || ""), bold: true })],
-          }),
-        ],
-      }),
+    children: header.map(
+      (cell) =>
+        new TableCell({
+          children: [
+            new Paragraph({
+              spacing: defaultParagraphSpacing,
+              children: [new TextRun({ text: String(cell || ""), bold: true })],
+            }),
+          ],
+        }),
     ),
   });
 
@@ -436,23 +443,21 @@ async function createDocxSections(markdown) {
         break;
 
       case "code":
-        (token.text || "")
-          .split("\n")
-          .forEach((line) =>
-            children.push(
-              new Paragraph({
-                spacing: { before: 60, after: 60, line: 240, lineRule: "auto" },
-                shading: { fill: "F8FAFC" },
-                children: [
-                  new TextRun({
-                    text: line.length ? line : " ",
-                    font: "Courier New",
-                    size: 20,
-                  }),
-                ],
-              }),
-            ),
-          );
+        (token.text || "").split("\n").forEach((line) =>
+          children.push(
+            new Paragraph({
+              spacing: { before: 60, after: 60, line: 240, lineRule: "auto" },
+              shading: { fill: "F8FAFC" },
+              children: [
+                new TextRun({
+                  text: line.length ? line : " ",
+                  font: "Courier New",
+                  size: 20,
+                }),
+              ],
+            }),
+          ),
+        );
         break;
 
       case "table":
@@ -461,7 +466,9 @@ async function createDocxSections(markdown) {
 
       case "image":
         try {
-          const source = resolveImageSource(token.href || token.url || token.src || "");
+          const source = resolveImageSource(
+            token.href || token.url || token.src || "",
+          );
           if (!source) throw new Error("Missing image source");
           const bytes = await fetchImageBytes(source);
           children.push(
@@ -527,8 +534,111 @@ async function createDocxDocument(markdown) {
   });
 }
 
+async function downloadPngFile(element, filename) {
+  if (!element) {
+    throw new Error("Couldn't find editor");
+  }
+
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+
+  const bg = isDark ? "#1A1B1E" : "#FFFFFF";
+
+  const blob = await domToBlob(element, {
+    scale: 2,
+    backgroundColor: bg,
+  });
+
+  downloadBlob(blob, filename);
+}
+
+async function downloadPdfFile(markdown, filename) {
+  const html = buildHtmlDocument(markdown, filename.replace(/\.[^.]+$/, ""));
+
+  const iframe = document.createElement("iframe");
+  iframe.style.position = "fixed";
+  iframe.style.left = "-10000px";
+  iframe.style.top = "0";
+  iframe.style.width = "900px";
+  iframe.style.height = "1px";
+  iframe.style.border = "0";
+
+  document.body.appendChild(iframe);
+
+  try {
+    const doc = iframe.contentDocument;
+    if (!doc) throw new Error("Couldn't create export document");
+
+    doc.open();
+    doc.write(html);
+    doc.close();
+
+    // Wait for layout
+    await new Promise((resolve) => {
+      iframe.onload = resolve;
+      setTimeout(resolve, 100);
+    });
+
+    // Wait for fonts
+    if (doc.fonts?.ready) {
+      await doc.fonts.ready;
+    }
+
+    // Wait for images
+    await Promise.all(
+      [...doc.images].map((img) =>
+        img.complete
+          ? Promise.resolve()
+          : new Promise((resolve) => {
+              img.onload = resolve;
+              img.onerror = resolve;
+            }),
+      ),
+    );
+
+    const blob = await domToBlob(doc.body, {
+      scale: 2,
+      backgroundColor: "#ffffff",
+    });
+
+    const pngBytes = await blob.arrayBuffer();
+
+    const pdf = await PDFDocument.create();
+    const image = await pdf.embedPng(pngBytes);
+
+    const margin = 20;
+
+    const pageWidth = 595.28; // A4
+    const drawableWidth = pageWidth - margin * 2;
+
+    const scale = drawableWidth / image.width;
+    const pageHeight = image.height * scale + margin * 2;
+
+    const page = pdf.addPage([pageWidth, pageHeight]);
+
+    page.drawImage(image, {
+      x: margin,
+      y: margin,
+      width: drawableWidth,
+      height: image.height * scale,
+    });
+
+    const pdfBytes = await pdf.save();
+
+    downloadBlob(
+      new Blob([pdfBytes], {
+        type: "application/pdf",
+      }),
+      filename,
+    );
+  } finally {
+    iframe.remove();
+  }
+}
+
 export function downloadMarkdownFile(markdown, filename) {
-  const blob = new Blob([markdown || ""], { type: "text/markdown;charset=utf-8" });
+  const blob = new Blob([markdown || ""], {
+    type: "text/markdown;charset=utf-8",
+  });
   downloadBlob(blob, filename);
 }
 
@@ -549,7 +659,12 @@ export async function downloadDocxFile(markdown, filename) {
   downloadBlob(blob, filename);
 }
 
-export async function exportMarkdownFile(format, markdown, filenameBase) {
+export async function exportMarkdownFile(
+  format,
+  markdown,
+  filenameBase,
+  element,
+) {
   const base = normalizeFilename(filenameBase || "sharepad");
   switch (format) {
     case "md":
@@ -560,6 +675,10 @@ export async function exportMarkdownFile(format, markdown, filenameBase) {
       return downloadHtmlFile(markdown, `${base}.html`);
     case "docx":
       return downloadDocxFile(markdown, `${base}.docx`);
+    case "png":
+      return downloadPngFile(element, `${base}.png`);
+    case "pdf":
+      return downloadPdfFile(markdown, `${base}.pdf`);
     default:
       throw new Error(`Unsupported export format: ${format}`);
   }
