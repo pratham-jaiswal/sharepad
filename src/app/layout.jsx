@@ -33,7 +33,9 @@ export default async function RootLayout({ children }) {
   const cookieStore = await cookies();
   const storedTheme = cookieStore.get("sharepad_theme")?.value;
   const initialTheme =
-    storedTheme === "light" || storedTheme === "dark" || storedTheme === "system"
+    storedTheme === "light" ||
+    storedTheme === "dark" ||
+    storedTheme === "system"
       ? storedTheme
       : "system";
   const ssrTheme =
@@ -85,7 +87,7 @@ export default async function RootLayout({ children }) {
           target="_blank"
           rel="noopener"
           id="floating-patreon-btn"
-          area-label="Support Me on Patreon"
+          aria-label="Support Me on Patreon"
         >
           <img
             width="20px"
