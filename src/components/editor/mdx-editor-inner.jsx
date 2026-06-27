@@ -32,10 +32,12 @@ import {
 } from "@mdxeditor/editor";
 import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import { toast } from "sonner";
-import { Copy, Download } from "lucide-react";
+import { Copy, Download, Share2 } from "lucide-react";
 import { exportMarkdownFile } from "@/lib/export";
 
 export function MDXEditorInner({ markdown, setMarkdown, dirtyRef, slug }) {
+  const canShare = typeof navigator !== "undefined" && "share" in navigator;
+
   const codeBlockLanguages = Object.fromEntries(
     Object.entries({
       txt: "Text",
@@ -117,6 +119,32 @@ export function MDXEditorInner({ markdown, setMarkdown, dirtyRef, slug }) {
     }
   }
 
+  async function shareLink() {
+    const url = `${window.location.origin}/${slug}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: "SharePad",
+          text: "Check out this note",
+          url,
+        });
+        return;
+      }
+
+      await navigator.clipboard.writeText(url);
+      toast.success("Link copied to clipboard");
+    } catch (err) {
+      if (err?.name === "AbortError") return;
+      try {
+        await navigator.clipboard.writeText(url);
+        toast.success("Link copied to clipboard");
+      } catch {
+        toast.error("Couldn't share the link");
+      }
+    }
+  }
+
   return (
     <MDXEditor
       spellCheck={false}
@@ -192,6 +220,16 @@ export function MDXEditorInner({ markdown, setMarkdown, dirtyRef, slug }) {
                   aria-label="Copy markdown"
                 >
                   <Copy size={18} />
+                </button>
+              </TooltipWrap>
+              <TooltipWrap title={canShare ? "Share this pad" : "Copy pad link"}>
+                <button
+                  type="button"
+                  className="mdx-toolbar-icon-btn"
+                  onClick={shareLink}
+                  aria-label={canShare ? "Share this pad" : "Copy pad link"}
+                >
+                  <Share2 size={18} />
                 </button>
               </TooltipWrap>
             </>
