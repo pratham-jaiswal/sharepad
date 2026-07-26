@@ -5,15 +5,17 @@
   "description": "SharePad is a modern markdown-first shared notepad built with Next.js.",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && npm run sentry:sourcemaps",
     "start": "next start",
     "lint": "next lint",
-    "test": "echo \"No tests configured yet\""
+    "test": "echo \"No tests configured yet\"",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org pratham-jaiswal --project sharepad ./.next/ && sentry-cli sourcemaps upload --org pratham-jaiswal --project sharepad ./.next/"
   },
   "author": "Pratham Jaiswal (MaxxDevs)",
   "license": "AGPL-3.0-only",
   "dependencies": {
     "@mdxeditor/editor": "^4.1.0",
+    "@sentry/cli": "^2.58.6",
     "@sentry/nextjs": "^10.68.0",
     "@uiw/codemirror-theme-github": "^4.25.11",
     "bcryptjs": "^3.0.3",
