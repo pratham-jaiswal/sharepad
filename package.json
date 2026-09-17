@@ -25,7 +25,7 @@
     "marked": "^18.0.9",
     "modern-screenshot": "^4.7.0",
     "mongoose": "^9.9.1",
-    "next": "^16.3.0",
+    "next": "^16.3.5",
     "pdf-lib": "^1.17.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
