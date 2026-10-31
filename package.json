@@ -5,39 +5,39 @@
   "description": "SharePad is a modern markdown-first shared notepad built with Next.js.",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && npm run sentry:sourcemaps",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "test": "echo \"No tests configured yet\"",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org pratham-jaiswal --project sharepad ./.next/ && sentry-cli sourcemaps upload --org pratham-jaiswal --project sharepad ./.next/"
+    "lint": "eslint .",
+    "test": "echo \"No tests configured yet\""
   },
   "author": "Pratham Jaiswal (MaxxDevs)",
   "license": "AGPL-3.0-only",
   "dependencies": {
-    "@mdxeditor/editor": "^4.2.0",
-    "@sentry/cli": "^3.6.2",
-    "@sentry/nextjs": "^10.69.0",
-    "@uiw/codemirror-theme-github": "^4.25.11",
+    "@mdxeditor/editor": "^4.3.4",
+    "@sentry/cli": "^3.8.2",
+    "@sentry/nextjs": "^11.10.0",
+    "@uiw/codemirror-theme-github": "^4.25.12",
     "bcryptjs": "^3.0.3",
-    "docx": "^9.7.1",
+    "docx": "^9.15.0",
     "jsonwebtoken": "^9.0.3",
-    "lucide-react": "^1.31.0",
-    "marked": "^18.0.9",
+    "lucide-react": "^1.66.0",
+    "marked": "^18.1.2",
     "modern-screenshot": "^4.7.0",
-    "mongoose": "^9.9.1",
-    "next": "^16.3.5",
+    "mongoose": "^9.11.4",
+    "next": "^16.4.3",
     "pdf-lib": "^1.17.1",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "resend": "^6.18.1",
-    "sanitize-html": "^2.17.7",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "resend": "^6.37.0",
+    "sanitize-html": "^2.18.1",
     "sonner": "^2.0.8",
-    "zod": "^4.4.3"
+    "zod": "^4.6.7"
   },
   "overrides": {
-    "js-yaml": "^5.2.3"
+    "glob": "^14.0.2",
+    "minimatch": "^11.0.1"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "^16.3.0"
+    "@next/eslint-plugin-next": "^16.4.3"
   }
 }
